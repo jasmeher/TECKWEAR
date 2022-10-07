@@ -176,6 +176,10 @@
     align-items: center;
     overflow-x: auto;
 
+    @media screen and (max-width: $layoutBreakpoint-md) {
+      padding: 8rem 2rem;
+    }
+
     &::-webkit-scrollbar {
       height: 1rem;
       background: $primaryColor;
