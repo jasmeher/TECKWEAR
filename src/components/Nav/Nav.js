@@ -20,7 +20,7 @@ const Nav = () => {
     <>
       <div className="containerNav">
         <Marquee gradient={false} speed={150} className="disclaimerMarquee">
-          <p>PORTFOLIO WEBSITE, NOT A REAL WEBSITE</p>
+          <p>PORTFOLIO WEBSITE, NOT A REAL WEBSITE!! WIP</p>
         </Marquee>
         <nav className={scroll ? "navigation" : "navigation alt"}>
           <div className="left">
