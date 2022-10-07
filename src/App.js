@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from "./components/Nav/Nav";
+import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
     <>
       <Nav />
       <Home />
+      <Footer />
     </>
   );
 };
