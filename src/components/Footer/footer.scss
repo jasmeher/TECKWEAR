@@ -12,12 +12,28 @@
     justify-content: space-between;
     align-items: center;
     color: $primaryColor;
-    padding: 1rem 8rem;
+    padding: 1rem 6rem;
+
+    @media screen and (max-width: $layoutBreakpoint-md) {
+      flex-direction: column;
+      padding: 3rem 0;
+    }
 
     .text {
       font-size: 2.2rem;
       letter-spacing: 2px;
       font-weight: bold;
+      margin-right: 2rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @media screen and (max-width: $layoutBreakpoint-hero) {
+        margin-right: 0;
+        margin-bottom: 4rem;
+        text-align: center;
+      }
     }
   }
 
@@ -28,8 +44,19 @@
     padding: 6rem 8rem;
     text-align: left;
 
+    @media screen and (max-width: $layoutBreakpoint-hero) {
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .left {
       width: 30%;
+
+      @media screen and (max-width: $layoutBreakpoint-hero) {
+        width: 100%;
+      }
 
       .top {
         display: flex;
@@ -38,6 +65,11 @@
         flex-direction: column;
         background: $primaryColor !important;
         color: $secondaryColor;
+
+        @media screen and (max-width: $layoutBreakpoint-hero) {
+          text-align: center;
+          align-items: center;
+        }
 
         .heading {
           font-size: 2.2rem;
@@ -61,6 +93,10 @@
     .middle {
       width: 35%;
 
+      @media screen and (max-width: $layoutBreakpoint-hero) {
+        width: 100%;
+      }
+
       .top {
         display: flex;
         justify-content: flex-start;
@@ -68,6 +104,11 @@
         flex-direction: column;
         background: $primaryColor;
         color: $secondaryColor;
+
+        @media screen and (max-width: $layoutBreakpoint-hero) {
+          text-align: center;
+          align-items: center;
+        }
 
         .heading {
           font-size: 2.2rem;
@@ -84,5 +125,13 @@
         }
       }
     }
+  }
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 15rem;
   }
 }

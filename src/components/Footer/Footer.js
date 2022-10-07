@@ -67,6 +67,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <div className="logo">
+          <p className="title">TECKWEAR</p>
+        </div>
       </div>
     </>
   );
