@@ -3,6 +3,7 @@ import "./nav.scss";
 import { FiSearch, FiShoppingCart, FiUser, FiMenu } from "react-icons/fi";
 import { Offcanvas, Accordion } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   const [show, setShow] = useState(false);
@@ -24,7 +25,11 @@ const Nav = () => {
         </Marquee>
         <nav className={scroll ? "navigation" : "navigation alt"}>
           <div className="left">
-            <p className="title">TECKWEAR</p>
+            <p className="title">
+              <Link to="/" className="text-reset">
+                TECKWEAR
+              </Link>
+            </p>
           </div>
           <div className="middle">
             <ul className="navList">

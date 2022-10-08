@@ -48,6 +48,19 @@ const Footer = () => {
                 For additional information, please consult the Shipping Policy
               </p>
             </div>
+
+            <div className="top">
+              <h2 className="heading">NEWSLETTER</h2>
+
+              <form method="post">
+                <input
+                  type="email"
+                  name="newsletter"
+                  className="newsletter"
+                  placeholder="Enter your Email Address"
+                />
+              </form>
+            </div>
           </div>
           <div className="middle">
             <div className="top">

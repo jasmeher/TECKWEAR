@@ -65,6 +65,7 @@
         flex-direction: column;
         background: $primaryColor !important;
         color: $secondaryColor;
+        min-height: 35vh;
 
         @media screen and (max-width: $layoutBreakpoint-hero) {
           text-align: center;
@@ -85,6 +86,7 @@
 
           .footerItem {
             margin-bottom: 1.25rem;
+            cursor: pointer;
           }
         }
       }
@@ -104,6 +106,7 @@
         flex-direction: column;
         background: $primaryColor;
         color: $secondaryColor;
+        min-height: 35vh;
 
         @media screen and (max-width: $layoutBreakpoint-hero) {
           text-align: center;
@@ -122,6 +125,14 @@
           font-size: 1.4rem;
           margin-bottom: 1.5rem;
           opacity: 0.7;
+        }
+
+        .newsletter {
+          width: 30rem;
+          padding: 0.5rem 1rem 0.5rem 0rem;
+          background: none;
+          border: 0;
+          border-bottom: 2px solid $secondaryColor;
         }
       }
     }

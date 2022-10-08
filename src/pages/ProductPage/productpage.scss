@@ -1,0 +1,138 @@
+@import "./../../pallete.scss";
+
+.productPageContainer {
+  width: 100%;
+  min-height: 90vh;
+  padding: 5rem 2rem;
+
+  .top {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Roboto Mono", monospace;
+    margin-bottom: 1rem;
+
+    .links {
+      font-size: 1.5rem;
+
+      .history {
+        opacity: 0.7;
+      }
+
+      .productName {
+        text-transform: capitalize;
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  .middle {
+    display: flex;
+
+    @media screen and (max-width: $layoutBreakpoint-productPage) {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .left {
+      width: 45%;
+      margin-right: 5%;
+      min-height: 75vh;
+
+      @media screen and (max-width: $layoutBreakpoint-hero) {
+        min-height: fit-content;
+      }
+
+      @media screen and (max-width: $layoutBreakpoint-productPage) {
+        width: 70%;
+      }
+
+      @media screen and (max-width: 507px) {
+        width: 100%;
+        margin-right: 0;
+      }
+
+      .productImg {
+        width: 100%;
+      }
+    }
+
+    .right {
+      width: 50%;
+      padding-left: 0rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      font-family: "Roboto Mono", monospace;
+
+      @media screen and (max-width: $layoutBreakpoint-productPage) {
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .top {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+
+        .productName {
+          font-size: 4rem;
+          text-transform: uppercase;
+          margin-bottom: 4rem;
+        }
+
+        .productPrice {
+          font-size: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .detailsContainer {
+          display: flex;
+          min-width: 35rem;
+          border-bottom: 1px solid $teritaryColor;
+          margin-bottom: 3rem;
+
+          @media screen and (max-width: $layoutBreakpoint-productPage) {
+            max-width: fit-content !important;
+          }
+
+          .active {
+            text-decoration: underline;
+          }
+
+          .detailName {
+            margin-right: 2rem;
+          }
+
+          .detailList {
+            list-style-type: none;
+            padding: 0;
+
+            .detailItem {
+              display: inline-block;
+              min-width: 2ch;
+              text-align: center;
+              margin-right: 1rem;
+              cursor: pointer;
+              padding-bottom: 0.5rem;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.productCTA {
+  @media screen and(max-width: 721px) {
+    width: 100% !important;
+  }
+}
