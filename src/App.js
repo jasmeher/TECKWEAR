@@ -4,6 +4,7 @@ import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./ScrollToTop";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Router>
         <Nav />
 
+        <ScrollToTop />
         <Routes>
           <Route
             path="/"
