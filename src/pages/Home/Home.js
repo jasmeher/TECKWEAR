@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import "./home.scss";
 import hero from "./../../static/hero.webp";
@@ -71,12 +72,14 @@ const Home = () => {
 
         <div className="bottom">
           <div className="primaryContainer">
-            <Item
-              img={dummy}
-              productName="Teckwear Hoodie"
-              price={50}
-              discount={50}
-            />
+            <Link to="/product/222" className="text-reset">
+              <Item
+                img={dummy}
+                productName="Teckwear Hoodie"
+                price={50}
+                discount={50}
+              />
+            </Link>
           </div>
           <div className="primaryContainer">
             <Item img={dummy} productName="Teckwear Hoodie" price={50} />
