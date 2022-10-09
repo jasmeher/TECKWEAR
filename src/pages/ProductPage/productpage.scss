@@ -78,11 +78,16 @@
         justify-content: flex-start;
         align-items: flex-start;
         flex-direction: column;
+        margin-bottom: 5rem;
 
         .productName {
           font-size: 4rem;
           text-transform: uppercase;
           margin-bottom: 4rem;
+
+          @media screen and (min-width: $layoutBreakpoint-productPage) {
+            width: 70%;
+          }
         }
 
         .productPrice {
@@ -98,6 +103,10 @@
 
           @media screen and (max-width: $layoutBreakpoint-productPage) {
             max-width: fit-content !important;
+          }
+
+          @media screen and (min-width: $layoutBreakpoint-productPage) {
+            width: 70%;
           }
 
           .active {
@@ -117,12 +126,53 @@
               min-width: 2ch;
               text-align: center;
               margin-right: 1rem;
-              cursor: pointer;
               padding-bottom: 0.5rem;
+              position: relative;
 
-              &:hover {
-                text-decoration: underline;
+              input {
+                position: absolute;
+                display: inline-block;
+                opacity: 0;
+                z-index: -1;
+
+                & + label {
+                  &:hover {
+                    cursor: pointer;
+                    text-decoration: underline;
+                  }
+                }
+
+                &:checked {
+                  & + label {
+                    text-decoration: underline;
+                  }
+                }
               }
+            }
+          }
+        }
+      }
+
+      .bottom {
+        width: 100%;
+
+        .accordion-item {
+          background: none;
+
+          @media screen and (min-width: $layoutBreakpoint-productPage) {
+            min-width: 35rem;
+            width: 70%;
+          }
+
+          @media screen and (max-width: $layoutBreakpoint-productPage) {
+            width: 100% !important;
+          }
+
+          .accordion-header {
+            .accordion-button {
+              background: none !important;
+              border-bottom: 1px solid $secondaryColor;
+              box-shadow: none !important;
             }
           }
         }
@@ -133,6 +183,12 @@
 
 .productCTA {
   @media screen and(max-width: 721px) {
+    max-width: 100% !important;
     width: 100% !important;
+  }
+
+  @media screen and(min-width: $layoutBreakpoint-productPage) {
+    min-width: 35rem;
+    width: 70% !important;
   }
 }
