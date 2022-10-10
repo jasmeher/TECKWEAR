@@ -29,6 +29,7 @@
 
   .middle {
     display: flex;
+    margin-bottom: 2rem;
 
     @media screen and (max-width: $layoutBreakpoint-productPage) {
       flex-direction: column;
@@ -83,7 +84,7 @@
         .productName {
           font-size: 4rem;
           text-transform: uppercase;
-          margin-bottom: 4rem;
+          margin-bottom: 1rem;
 
           @media screen and (min-width: $layoutBreakpoint-productPage) {
             width: 70%;
@@ -95,6 +96,17 @@
           margin-bottom: 4rem;
         }
 
+        .ratingUL {
+          list-style-type: none;
+          padding: 0;
+          margin-bottom: 4rem;
+
+          .ratingList {
+            display: inline-block;
+            margin-right: 0.75rem;
+          }
+        }
+
         .detailsContainer {
           display: flex;
           min-width: 35rem;
@@ -102,15 +114,26 @@
           margin-bottom: 3rem;
 
           @media screen and (max-width: $layoutBreakpoint-productPage) {
-            max-width: fit-content !important;
+            width: 100% !important;
           }
 
           @media screen and (min-width: $layoutBreakpoint-productPage) {
             width: 70%;
           }
 
-          .active {
-            text-decoration: underline;
+          .quantityContainer {
+            display: flex;
+            font-size: 1.7rem;
+
+            .arrow {
+              margin-right: 1rem;
+              cursor: pointer;
+
+              &:last-child {
+                margin-right: 0;
+                margin-left: 1rem;
+              }
+            }
           }
 
           .detailName {
@@ -136,6 +159,7 @@
                 z-index: -1;
 
                 & + label {
+                  padding: 0 0.5rem;
                   &:hover {
                     cursor: pointer;
                     text-decoration: underline;
@@ -179,6 +203,82 @@
       }
     }
   }
+
+  .bottom {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .top {
+      width: 100%;
+      padding: 1rem 0;
+      border-top: 1px solid $secondaryColor;
+      border-bottom: 1px solid $secondaryColor;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+
+      .heading {
+        font-size: 1.8rem;
+      }
+    }
+
+    .otherProducts {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      overflow-x: auto;
+      padding-bottom: 2rem;
+
+      .primaryContainer {
+        min-width: 30rem;
+        max-width: 30rem;
+        height: 55rem;
+        border: 1px solid $secondaryColor;
+        margin-right: 1.75rem;
+      }
+    }
+  }
+
+  .reviewsContainer {
+    width: 100%;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .top {
+      border-top: 1px solid $secondaryColor;
+      border-bottom: 1px solid $secondaryColor;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 1rem 0;
+
+      .heading {
+        font-size: 1.85rem;
+      }
+    }
+
+    .bottom {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      max-height: 100rem;
+    }
+
+    #bottom {
+      max-height: 65rem;
+      overflow-y: auto;
+    }
+  }
 }
 
 .productCTA {
@@ -191,4 +291,12 @@
     min-width: 35rem;
     width: 70% !important;
   }
+}
+
+.accordionDetails {
+  width: 100%;
+}
+
+.disabled {
+  opacity: 0.5;
 }
