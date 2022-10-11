@@ -43,6 +43,12 @@ const Nav = () => {
                 <div className="subMenu">
                   <div className="inner">
                     <ul className="subMenuList">
+                      <Link to="/products/men" className="text-reset">
+                        <li className="subMenuListItem">
+                          <p className="listTitle">All</p>
+                          <p className="amount">128</p>
+                        </li>
+                      </Link>
                       <li className="subMenuListItem">
                         <p className="listTitle">Sale</p>
                         <p className="amount">28</p>
@@ -77,6 +83,10 @@ const Nav = () => {
                   <div className="inner">
                     <ul className="subMenuList">
                       <li className="subMenuListItem">
+                        <p className="listTitle">All</p>
+                        <p className="amount">128</p>
+                      </li>
+                      <li className="subMenuListItem">
                         <p className="listTitle">Sale</p>
                         <p className="amount">28</p>
                       </li>
@@ -109,6 +119,10 @@ const Nav = () => {
                 <div className="subMenu">
                   <div className="inner">
                     <ul className="subMenuList">
+                      <li className="subMenuListItem">
+                        <p className="listTitle">All</p>
+                        <p className="amount">128</p>
+                      </li>
                       <li className="subMenuListItem">
                         <p className="listTitle">Sale</p>
                         <p className="amount">28</p>
@@ -183,6 +197,10 @@ const Nav = () => {
                 <ul className="accordionList">
                   <li className="accordionListItem">
                     <span className="listTitle">Sale</span>
+                    <span className="amount">122</span>
+                  </li>
+                  <li className="accordionListItem">
+                    <span className="listTitle">Sale</span>
                     <span className="amount">22</span>
                   </li>
                   <li className="accordionListItem">
@@ -214,6 +232,10 @@ const Nav = () => {
                 <ul className="accordionList">
                   <li className="accordionListItem">
                     <span className="listTitle">Sale</span>
+                    <span className="amount">122</span>
+                  </li>
+                  <li className="accordionListItem">
+                    <span className="listTitle">Sale</span>
                     <span className="amount">22</span>
                   </li>
                   <li className="accordionListItem">
@@ -243,6 +265,10 @@ const Nav = () => {
               <Accordion.Header>UNISEX</Accordion.Header>
               <Accordion.Body>
                 <ul className="accordionList">
+                  <li className="accordionListItem">
+                    <span className="listTitle">Sale</span>
+                    <span className="amount">122</span>
+                  </li>
                   <li className="accordionListItem">
                     <span className="listTitle">Sale</span>
                     <span className="amount">22</span>

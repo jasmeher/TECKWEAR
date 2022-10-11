@@ -5,6 +5,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./../../pages/Home/Home";
 import ProductPage from "./../../pages/ProductPage/ProductPage";
 import Footer from "./../Footer/Footer";
+import Products from "./../../pages/Products/Products";
 
 const AnimatedRoute = () => {
   const location = useLocation();
@@ -26,6 +27,15 @@ const AnimatedRoute = () => {
           element={
             <>
               <ProductPage />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/products/:gender"
+          element={
+            <>
+              <Products />
               <Footer />
             </>
           }
