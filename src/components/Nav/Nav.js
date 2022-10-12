@@ -307,7 +307,9 @@ const Nav = () => {
           </Accordion>
           <ul className="offcanvasList">
             <li className="offCanvasItem">ACCESSORIES</li>
-            <li className="offCanvasItem">SIGN IN</li>
+            <Link to="/signin" className="text-reset" onClick={handleNavClose}>
+              <li className="offCanvasItem">SIGN IN</li>
+            </Link>
             <li className="offCanvasItem">ABOUT</li>
           </ul>
         </Offcanvas.Body>
