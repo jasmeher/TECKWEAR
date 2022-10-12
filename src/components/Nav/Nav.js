@@ -195,10 +195,16 @@ const Nav = () => {
               <Accordion.Header>MEN</Accordion.Header>
               <Accordion.Body>
                 <ul className="accordionList">
-                  <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
-                    <span className="amount">122</span>
-                  </li>
+                  <Link
+                    to="/products/men"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">All</span>
+                      <span className="amount">122</span>
+                    </li>
+                  </Link>
                   <li className="accordionListItem">
                     <span className="listTitle">Sale</span>
                     <span className="amount">22</span>
@@ -231,7 +237,7 @@ const Nav = () => {
               <Accordion.Body>
                 <ul className="accordionList">
                   <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
+                    <span className="listTitle">All</span>
                     <span className="amount">122</span>
                   </li>
                   <li className="accordionListItem">
@@ -266,7 +272,7 @@ const Nav = () => {
               <Accordion.Body>
                 <ul className="accordionList">
                   <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
+                    <span className="listTitle">All</span>
                     <span className="amount">122</span>
                   </li>
                   <li className="accordionListItem">
