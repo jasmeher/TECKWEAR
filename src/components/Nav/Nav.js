@@ -165,7 +165,9 @@ const Nav = () => {
                 <span className="totalItems">2</span>
               </li>
               <li className="listItem">
-                <FiUser className="icon" />
+                <Link to="/signin" className="text-reset">
+                  <FiUser className="icon" />
+                </Link>
               </li>
             </ul>
           </div>
