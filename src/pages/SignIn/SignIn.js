@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./signin.scss";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
-import signin from "./../../static/signin.webp";
+import signin from "./../../static/signInBg.webp";
 
 const SignIn = () => {
   return (
@@ -34,7 +35,11 @@ const SignIn = () => {
               <span className="link">Forgot Password?</span>
               <span className="link">
                 Don't have an account?
-                <span className="redirect"> Sign Up!</span>
+                <span className="redirect">
+                  <Link to="/signup" className="text-reset">
+                    Sign Up!
+                  </Link>
+                </span>
               </span>
             </div>
           </div>

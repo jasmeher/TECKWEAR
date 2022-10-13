@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Modal } from "react-bootstrap";
 import "./productpage.scss";
 import dummy from "./../../static/dummy.webp";
 import dummy2 from "./../../static/dummy2.webp";
@@ -13,6 +13,10 @@ import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
 
 const ProductPage = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const slides = [
     { url: dummy, title: "dummy1" },
     { url: dummy2, title: "dummy2" },
@@ -251,6 +255,9 @@ const ProductPage = () => {
           <div className="reviewsContainer">
             <div className="top">
               <p className="heading">REVIEWS</p>
+              <button className="cta ctaRedirect" onClick={handleShow}>
+                Write a Review
+              </button>
             </div>
 
             <div className="bottom" id="bottom">
@@ -273,6 +280,39 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
+
+        <Modal show={show} onHide={handleClose} centered size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Write a Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="modalContainer">
+              <form method="post" className="reviewForm">
+                <input
+                  type="text"
+                  className="formInput"
+                  placeholder="Enter your Name"
+                />
+
+                <textarea
+                  name="review"
+                  className="textArea"
+                  cols="30"
+                  rows="10"
+                  placeholder="Review"
+                ></textarea>
+              </form>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <button className="cta ctaRedirect" onClick={handleClose}>
+              Close
+            </button>
+            <button className="cta ctaRedirect" onClick={handleClose}>
+              Submit Review
+            </button>
+          </Modal.Footer>
+        </Modal>
       </AnimatedRoute>
     </>
   );

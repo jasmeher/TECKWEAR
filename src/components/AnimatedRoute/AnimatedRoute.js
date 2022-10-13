@@ -7,6 +7,7 @@ import ProductPage from "./../../pages/ProductPage/ProductPage";
 import Footer from "./../Footer/Footer";
 import Products from "./../../pages/Products/Products";
 import SignIn from "./../../pages/SignIn/SignIn";
+import SignUp from "../../pages/SignUp/SignUp";
 
 const AnimatedRoute = () => {
   const location = useLocation();
@@ -46,6 +47,15 @@ const AnimatedRoute = () => {
           element={
             <>
               <SignIn />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <>
+              <SignUp />
               <Footer />
             </>
           }

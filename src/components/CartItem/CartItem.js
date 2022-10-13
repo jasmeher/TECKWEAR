@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./cartItem.scss";
 import { FiArrowLeft, FiArrowRight, FiX } from "react-icons/fi";
 
-const CartItem = ({ img, name }) => {
+const CartItem = ({ img, name, leftArrow, rightArrow }) => {
   const [qty, setQty] = useState(1);
 
   const decQty = (e) => {
