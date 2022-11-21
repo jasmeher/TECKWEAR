@@ -1,13 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useGetProductsQuery } from "./productsApiSlice";
 import "./products.scss";
 import AnimatedRoute from "./../../components/AnimatedPage/AnimatedPage";
 import { FiFilter } from "react-icons/fi";
 import Item from "./../../components/Item/Item";
-import dummy2 from "./../../static/dummy2.webp";
-import dummy from "./../../static/dummy.webp";
 
 const Products = () => {
+  const {
+    data: products,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProductsQuery();
+
+  let content;
+
+  if (isLoading) content = <p>Loading...</p>;
+  if (isError) {
+    content = <p>{error?.data?.message}</p>;
+  }
+
+  if (isSuccess) {
+    const { ids } = products;
+
+    const productsList = ids?.length
+      ? ids.map((productId) => (
+          <div className="productContainer">
+            <Item key={productId} productId={productId} />
+          </div>
+        ))
+      : null;
+
+    content = productsList;
+  }
+
   const [isCatCheckAll, setIsCatCheckAll] = useState(false);
   const [catChecked, setCatChecked] = useState({
     tops: false,
@@ -352,56 +379,7 @@ const Products = () => {
             </div>
           </div>
 
-          <div className="productsList">
-            <div className="productContainer">
-              <Link to="/product/333" className="text-reset">
-                <Item
-                  img={dummy}
-                  productName="Teckwear Hoodie"
-                  price={85}
-                  discount={20}
-                />
-              </Link>
-            </div>
-            <div className="productContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={65}
-                discount={12}
-              />
-            </div>
-            <div className="productContainer">
-              <Item
-                img={dummy2}
-                productName="Teckwear Windbreaker"
-                price={65}
-              />
-            </div>
-            <div className="productContainer">
-              <Item
-                img={dummy2}
-                productName="Teckwear Windbreaker"
-                price={65}
-              />
-            </div>
-            <div className="productContainer">
-              <Item
-                img={dummy2}
-                productName="Teckwear Windbreaker"
-                price={65}
-              />
-            </div>
-            <div className="productContainer">
-              <Item img={dummy} productName="Teckwear Windbreaker" price={65} />
-            </div>
-            <div className="productContainer">
-              <Item img={dummy} productName="Teckwear Windbreaker" price={65} />
-            </div>
-            <div className="productContainer">
-              <Item img={dummy} productName="Teckwear Windbreaker" price={65} />
-            </div>
-          </div>
+          <div className="productsList">{content}</div>
         </div>
       </AnimatedRoute>
     </>

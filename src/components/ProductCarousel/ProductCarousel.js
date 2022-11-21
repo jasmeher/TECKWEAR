@@ -19,7 +19,7 @@ const ProductCarousel = ({ slides }) => {
   return (
     <>
       <div className="carousel">
-        <img src={slides[currentIndex].url} alt="" className="carouselImage" />
+        <img src={slides[currentIndex]} alt="" className="carouselImage" />
 
         <div className="controls">
           <div className="arrow" onClick={goToPrev}>

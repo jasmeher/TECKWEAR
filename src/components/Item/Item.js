@@ -1,29 +1,37 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./item.scss";
+import { useSelector } from "react-redux";
+import { selectProductById } from "../../pages/Products/productsApiSlice";
 
-const Item = (props) => {
-  const price = props.price - (props.price * props.discount) / 100;
+const Item = ({ productId }) => {
+  const product = useSelector((state) => selectProductById(state, productId));
+  const navigate = useNavigate();
+  console.log(product);
+  if (product) {
+    const handleLink = () => navigate(`/product/${productId}`);
+    return (
+      <>
+        <div className="itemContainer" onClick={handleLink}>
+          <img src={product.img} alt="" className="itemImg" />
+          {/* {discount && <p className="sale">SALE</p>} */}
 
-  return (
-    <>
-      <div className="itemContainer">
-        <img src={props.img} alt="" className="itemImg" />
-        {props.discount && <p className="sale">SALE</p>}
+          <p className="productName">{product.BIproductname}</p>
+          <div className="priceContainer">
+            {/* <p className={props.discount ? "originPrice" : "d-none"}>
+              ${props.price}
+            </p> */}
+            <p className="price">
+              {/* {props.discount ? "$" + price : "$" + props.price} */}$
+              {product.BIprice}
+            </p>
+          </div>
 
-        <p className="productName">{props.productName}</p>
-        <div className="priceContainer">
-          <p className={props.discount ? "originPrice" : "d-none"}>
-            ${props.price}
-          </p>
-          <p className="price">
-            {props.discount ? "$" + price : "$" + props.price}
-          </p>
+          <button className="cta">ADD TO CART</button>
         </div>
-
-        <button className={props.sm ? "d-none" : "cta"}>ADD TO CART</button>
-      </div>
-    </>
-  );
+      </>
+    );
+  } else return null;
 };
 
 export default Item;
