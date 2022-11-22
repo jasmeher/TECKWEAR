@@ -7,7 +7,6 @@ import { selectProductById } from "../../pages/Products/productsApiSlice";
 const Item = ({ productId }) => {
   const product = useSelector((state) => selectProductById(state, productId));
   const navigate = useNavigate();
-  console.log(product);
   if (product) {
     const handleLink = () => navigate(`/product/${productId}`);
     return (

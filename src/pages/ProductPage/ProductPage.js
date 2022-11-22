@@ -40,6 +40,14 @@ const ProductPage = () => {
     }
   };
 
+  const color = product.length !== 0 ? product.BIcolor : "Black";
+
+  const colorArray = color.split(",");
+
+  const size = product.length !== 0 ? product.BIsize : "S,M,L";
+
+  const sizeArray = size.split(",");
+
   useEffect(() => {
     if (product.length !== 0) {
       const left = document.getElementById("left-arrow");
@@ -62,9 +70,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get(
-        `http://localhost:5000/productalt/single/${id}`
-      );
+      const res = await axios.get(`http://localhost:5000/product/single/${id}`);
       setProduct(res.data);
     };
     getData();
@@ -86,6 +92,7 @@ const ProductPage = () => {
                   </Link>
                   /All/
                 </span>
+                {console.log(colorArray)}
                 <span className="productName">{product.BIproductname}</span>
               </p>
             </div>
@@ -98,6 +105,16 @@ const ProductPage = () => {
               <div className="right">
                 <div className="top">
                   <p className="productName">{product.BIproductname}</p>
+                  {product.BIqty >= 80 && <p className="instock">In Stock</p>}
+                  {product.BIqty <= 80 && (
+                    <p className="lowstock">Low on Stock</p>
+                  )}
+                  {product.BIqty <= 10 && (
+                    <p className="lowstock">Only {product.BIqty} Left</p>
+                  )}
+                  {product.BIqty === 0 && (
+                    <p className="nostock">Out of Stock</p>
+                  )}
                   <ul className="ratingUL">
                     {Array(4)
                       .fill()
@@ -112,52 +129,39 @@ const ProductPage = () => {
                   <div className="detailsContainer">
                     <p className="detailName">Size:</p>
                     <ul className="detailList">
-                      <li className="detailItem">
-                        <input type="radio" value="S" name="size" id="radio1" />
-                        <label htmlFor="radio1" className="radioLabel">
-                          S
-                        </label>
-                      </li>
-                      <li className="detailItem">
-                        <input type="radio" value="M" name="size" id="radio2" />
-                        <label htmlFor="radio2">M</label>
-                      </li>
-                      <li className="detailItem">
-                        <input type="radio" value="L" name="size" id="radio3" />
-                        <label htmlFor="radio3">L</label>
-                      </li>
-                      <li className="detailItem">
-                        <input
-                          type="radio"
-                          value="XL"
-                          name="size"
-                          id="radio4"
-                        />
-                        <label htmlFor="radio4">XL</label>
-                      </li>
+                      {sizeArray.map((size) => {
+                        return (
+                          <li className="detailItem">
+                            <input
+                              type="radio"
+                              value={size}
+                              name="size"
+                              id={size}
+                            />
+                            <label htmlFor={size} className="radioLabel">
+                              {size}
+                            </label>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                   <div className="detailsContainer">
                     <p className="detailName">Color:</p>
                     <ul className="detailList">
-                      <li className="detailItem">
-                        <input
-                          type="radio"
-                          value="White"
-                          name="color"
-                          id="radio5"
-                        />
-                        <label htmlFor="radio5">White</label>
-                      </li>
-                      <li className="detailItem">
-                        <input
-                          type="radio"
-                          value="Black"
-                          name="color"
-                          id="radio6"
-                        />
-                        <label htmlFor="radio6">Black</label>
-                      </li>
+                      {colorArray.map((color) => {
+                        return (
+                          <li className="detailItem">
+                            <input
+                              type="radio"
+                              value={color}
+                              name="color"
+                              id={color}
+                            />
+                            <label htmlFor={color}>{color}</label>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                   <div className="detailsContainer">
@@ -190,12 +194,6 @@ const ProductPage = () => {
                             __html: product.description,
                           }}
                         ></p>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                      <Accordion.Header>MATERIALS</Accordion.Header>
-                      <Accordion.Body>
-                        <p>Polyester, cotton and spandex. Comfy and durable.</p>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
