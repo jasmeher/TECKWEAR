@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Accordion, Modal } from "react-bootstrap";
 import "./productpage.scss";
@@ -9,13 +9,15 @@ import pfp from "./../../static/pfp.webp";
 import { AiFillStar } from "react-icons/ai";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectProductById,
   selectAllProducts,
 } from "../../app/slice/productsApiSlice";
+import { addToCart } from "../../app/slice/cartSlice";
 
 const ProductPage = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [show, setShow] = useState(false);
 
@@ -24,45 +26,9 @@ const ProductPage = () => {
 
   const [qty, setQty] = useState(1);
 
-  const decQty = (e) => {
-    e.preventDefault();
-    if (qty === 1) {
-      setQty(1);
-    } else {
-      setQty(qty - 1);
-    }
-  };
-
-  const incQty = (e) => {
-    e.preventDefault();
-    if (qty === 5) {
-      setQty(5);
-    } else {
-      setQty(qty + 1);
-    }
-  };
-
   const product = useSelector((state) => selectProductById(state, id));
   const allProducts = useSelector(selectAllProducts);
-  useEffect(() => {
-    if (product) {
-      const left = document.getElementById("left-arrow");
-      const right = document.getElementById("right-arrow");
 
-      if (qty === 1) {
-        left.classList.add("disabled");
-      }
-
-      if (qty === 5) {
-        right.classList.add("disabled");
-      }
-
-      if (qty > 1 && qty < 5) {
-        left.classList.remove("disabled");
-        right.classList.remove("disabled");
-      }
-    }
-  }, [qty, product]);
   if (!product) {
     return <p>Product not found</p>;
   }
@@ -178,16 +144,33 @@ const ProductPage = () => {
                   <div className="detailsContainer">
                     <p className="detailName">Quantity:</p>
                     <div className="quantityContainer">
-                      <div className="arrow" onClick={decQty} id="left-arrow">
+                      <div
+                        className={`arrow ${qty === 1 && "disabled"}`}
+                        onClick={() =>
+                          setQty((prev) => (prev === 1 ? 1 : prev - 1))
+                        }
+                        id="left-arrow"
+                      >
                         <FiArrowLeft />
                       </div>
                       <p className="quantity">{qty}</p>
-                      <div className="arrow" onClick={incQty} id="right-arrow">
+                      <div
+                        className={`arrow ${qty === 5 && "disabled"}`}
+                        onClick={() =>
+                          setQty((prev) => (prev === 5 ? 5 : prev + 1))
+                        }
+                        id="right-arrow"
+                      >
                         <FiArrowRight />
                       </div>
                     </div>
                   </div>
-                  <button className="cta w-50 productCTA">ADD TO CART</button>
+                  <button
+                    className="cta w-50 productCTA"
+                    onClick={() => dispatch(addToCart({ id: product.id }))}
+                  >
+                    ADD TO CART
+                  </button>
                 </div>
 
                 <div className="bottom">

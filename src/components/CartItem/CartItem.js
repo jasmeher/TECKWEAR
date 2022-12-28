@@ -1,76 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./cartItem.scss";
 import { FiArrowLeft, FiArrowRight, FiX } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { selectProductById } from "../../app/slice/productsApiSlice";
 
-const CartItem = ({ img, name, leftArrow, rightArrow }) => {
-  const [qty, setQty] = useState(1);
-
-  const decQty = (e) => {
-    e.preventDefault();
-    if (qty === 1) {
-      setQty(1);
-    } else {
-      setQty(qty - 1);
-    }
-  };
-
-  const incQty = (e) => {
-    e.preventDefault();
-    if (qty === 5) {
-      setQty(5);
-    } else {
-      setQty(qty + 1);
-    }
-  };
-
-  useEffect(() => {
-    const left = document.getElementById("left-arrow");
-    const right = document.getElementById("right-arrow");
-
-    if (qty === 1) {
-      left.classList.add("disabled");
-    }
-
-    if (qty === 5) {
-      right.classList.add("disabled");
-    }
-
-    if (qty > 1 && qty < 5) {
-      left.classList.remove("disabled");
-      right.classList.remove("disabled");
-    }
-  }, [qty]);
+const CartItem = ({ id, quantity, color, size }) => {
+  const product = useSelector((state) => selectProductById(state, id));
+  const [qty, setQty] = useState(quantity);
   return (
     <>
       <div className="cartItemContainer">
         <div className="left">
-          <img src={img} alt="" className="productImg" />
+          <img src={product.img[0]} alt="" className="productImg" />
         </div>
         <div className="right">
           <div className="top">
-            <p className="productName">{name}</p>
+            <p className="productName">{product.BIproductname}</p>
             <FiX className="icon" />
           </div>
-          <p className="price">$50</p>
+          <p className="price">${product.BIprice}</p>
           <div className="bottom">
             <div className="detailsContainer">
               <p className="detailTitle">Color: </p>
-              <p className="detail">Black</p>
+              <p className="detail">{color}</p>
             </div>
 
             <div className="detailsContainer">
               <p className="detailTitle">Size: </p>
-              <p className="detail">L</p>
+              <p className="detail">{size}</p>
             </div>
 
             <div className="detailsContainer">
               <p className="detailTitle">Quantity: </p>
               <div className="quantityContainer">
-                <div className="arrow" onClick={decQty} id="left-arrow">
+                <div
+                  className={`arrow ${qty === 1 && "disabled"}`}
+                  onClick={() => setQty((prev) => (prev === 1 ? 1 : prev + 1))}
+                  id="left-arrow"
+                >
                   <FiArrowLeft />
                 </div>
                 <p className="quantity">{qty}</p>
-                <div className="arrow" onClick={incQty} id="right-arrow">
+                <div
+                  className={`arrow ${qty === 5 && "disabled"}`}
+                  onClick={() => setQty((prev) => (prev === 5 ? 5 : prev - 1))}
+                  id="right-arrow"
+                >
                   <FiArrowRight />
                 </div>
               </div>

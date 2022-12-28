@@ -5,9 +5,10 @@ import { Offcanvas, Accordion } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
-import dummy from "./../../static/dummy.webp";
 import UseAuth from "../../hooks/UseAuth";
 import { useSendLogOutMutation } from "../../app/slice/authApiSlice";
+import { useSelector } from "react-redux";
+import { selectAllCartProducts } from "../../app/slice/cartSlice";
 
 const Nav = () => {
   const { username } = UseAuth();
@@ -29,6 +30,7 @@ const Nav = () => {
   const navigate = useNavigate();
   const [sendLogOut, { isLoading, isSuccess, isError, error }] =
     useSendLogOutMutation();
+  const cartProducts = useSelector(selectAllCartProducts);
 
   useEffect(() => {
     if (isSuccess) {
@@ -178,7 +180,13 @@ const Nav = () => {
               </li>
               <li className="listItem cartIcon">
                 <FiShoppingCart className="icon" onClick={handleCartShow} />
-                <span className="totalItems">2</span>
+                <span
+                  className={`totalItems ${
+                    cartProducts.length === 0 && "d-none"
+                  }`}
+                >
+                  {cartProducts.length}
+                </span>
               </li>
               <li className="listItem">
                 {username ? (
@@ -406,8 +414,14 @@ const Nav = () => {
         <Offcanvas.Body>
           <div className="shoppingCartOffCanvas">
             <div className="top" id="top">
-              <CartItem img={dummy} name="Teckwear Hoodie" />
-              <CartItem img={dummy} name="Teckwear Hoodie" />
+              {cartProducts.map((product) => (
+                <CartItem
+                  id={product.id}
+                  quantity={product.quantity}
+                  color={product.color}
+                  size={product.size}
+                />
+              ))}
             </div>
 
             <div className="bottom" id="bottom">
