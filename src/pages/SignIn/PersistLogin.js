@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useRefreshMutation } from "../../app/slice/authApiSlice";
 import usePersist from "../../hooks/UsePersist";
@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../app/slice/authSlice";
 
 const PersistLogin = () => {
+  const location = useLocation();
+
   const [persist] = usePersist();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(false);
@@ -40,12 +42,15 @@ const PersistLogin = () => {
     console.log("loading");
     content = <p>Loading...</p>;
   } else if (isError) {
-    console.log("error");
-    content = (
-      <p className="err">
-        {error.data?.message} <Link to="/">Please Login Again</Link>
-      </p>
-    );
+    if (location.pathname === "/profile") {
+      console.log("error");
+      return (content = (
+        <p className="err">
+          {error.data?.message} <Link to="/">Please Login Again</Link>
+        </p>
+      ));
+    }
+    content = <Outlet />;
   } else if (isSuccess && trueSuccess) {
     console.log("success");
     content = <Outlet />;

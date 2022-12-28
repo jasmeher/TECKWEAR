@@ -3,11 +3,15 @@ import "./nav.scss";
 import { FiSearch, FiShoppingCart, FiUser, FiMenu } from "react-icons/fi";
 import { Offcanvas, Accordion } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
 import dummy from "./../../static/dummy.webp";
+import UseAuth from "../../hooks/UseAuth";
+import { useSendLogOutMutation } from "../../app/slice/authApiSlice";
 
 const Nav = () => {
+  const { username } = UseAuth();
+  console.log(username);
   const [navShow, setNavShow] = useState(false);
   const [cartShow, setCartShow] = useState(false);
 
@@ -22,6 +26,18 @@ const Nav = () => {
   const handleNavShow = () => setNavShow(true);
   const handleCartClose = () => setCartShow(false);
   const handleCartShow = () => setCartShow(true);
+  const navigate = useNavigate();
+  const [sendLogOut, { isLoading, isSuccess, isError, error }] =
+    useSendLogOutMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+  }, [isSuccess, navigate]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {error.data?.message}</p>;
   return (
     <>
       <div className="containerNav">
@@ -165,9 +181,35 @@ const Nav = () => {
                 <span className="totalItems">2</span>
               </li>
               <li className="listItem">
-                <Link to="/signin" className="text-reset">
-                  <FiUser className="icon" />
-                </Link>
+                {username ? (
+                  <>
+                    <FiUser className="icon" />
+                    <div className="subMenu">
+                      <div className="inner">
+                        <ul className="subMenuList">
+                          <Link to="/profile" className="text-reset">
+                            <li className="subMenuListItem">
+                              <p className="listTitle">Profile</p>
+                            </li>
+                          </Link>
+                          <li className="subMenuListItem">
+                            <p className="listTitle">Orders</p>
+                          </li>
+                          <li
+                            className="subMenuListItem"
+                            onClick={() => sendLogOut()}
+                          >
+                            <p className="listTitle">Logout</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <Link to="/signin" className="text-reset">
+                    <FiUser className="icon" />
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
@@ -307,9 +349,47 @@ const Nav = () => {
           </Accordion>
           <ul className="offcanvasList">
             <li className="offCanvasItem">ACCESSORIES</li>
-            <Link to="/signin" className="text-reset" onClick={handleNavClose}>
-              <li className="offCanvasItem">SIGN IN</li>
-            </Link>
+          </ul>
+          {username ? (
+            <Accordion alwaysOpen flush>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>SIGN IN</Accordion.Header>
+                <Accordion.Body>
+                  <ul className="accordionList">
+                    <Link
+                      to="/profile"
+                      className="text-reset"
+                      onClick={handleNavClose}
+                    >
+                      <li className="accordionListItem">
+                        <span className="listTitle">PROFILE</span>
+                      </li>
+                    </Link>
+                    <li className="accordionListItem">
+                      <span className="listTitle">Orders</span>
+                    </li>
+                    <li
+                      className="accordionListItem"
+                      onClick={() => sendLogOut()}
+                    >
+                      <span className="listTitle">Logout</span>
+                    </li>
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          ) : (
+            <ul className="offcanvasList">
+              <Link
+                to="/signin"
+                className="text-reset"
+                onClick={handleNavClose}
+              >
+                <li className="offCanvasItem">SIGN IN</li>
+              </Link>
+            </ul>
+          )}
+          <ul className="offcanvasList">
             <li className="offCanvasItem">ABOUT</li>
           </ul>
         </Offcanvas.Body>
