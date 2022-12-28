@@ -20,7 +20,7 @@ const ReviewBox = ({ pfp, name, rating, review }) => {
                 {Array(rating)
                   .fill()
                   .map((_, i) => (
-                    <li className="ratingList">
+                    <li className="ratingList" key={i}>
                       <AiFillStar />
                     </li>
                   ))}

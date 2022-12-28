@@ -6,6 +6,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
+import { productsApiSlice } from "./app/slice/productsApiSlice";
+
+store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

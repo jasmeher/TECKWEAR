@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./products.scss";
 import AnimatedRoute from "./../../components/AnimatedPage/AnimatedPage";
 import { FiFilter } from "react-icons/fi";
 import Item from "./../../components/Item/Item";
+import { useSelector } from "react-redux";
+import { selectAllProducts } from "../../app/slice/productsApiSlice";
 
 const Products = () => {
-  const [productsList, setProductsList] = useState([]);
+  const products = useSelector(selectAllProducts);
 
   const [isCatCheckAll, setIsCatCheckAll] = useState(true);
   const [catChecked, setCatChecked] = useState({
     tops: true,
-    bottom: true,
+    bottoms: true,
     footwear: true,
     outerwear: true,
   });
@@ -24,6 +25,7 @@ const Products = () => {
     l: false,
     xl: false,
     xxl: false,
+    xxxl: false,
   });
 
   const [sortChecked, setSortChecked] = useState({
@@ -86,149 +88,11 @@ const Products = () => {
     }
   }, [sizeChecked]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(`http://localhost:5000/product`);
-      setProductsList(res.data);
-    };
-    getData();
-  }, []);
+  if (!products) {
+    return <p>No Product found!</p>;
+  }
+  console.log(products);
 
-  const search = (data) => {
-    if (productsList.length > 0) {
-      if (catChecked.outerwear === true && isCatCheckAll === false) {
-        if (
-          catChecked.tops === true &&
-          catChecked.bottom === false &&
-          catChecked.footwear === false
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("outerwear") ||
-              product.BIcategory.toLowerCase().includes("tops")
-          );
-        }
-        if (
-          catChecked.tops === false &&
-          catChecked.bottom === true &&
-          catChecked.footwear === false
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("outerwear") ||
-              product.BIcategory.toLowerCase().includes("bottom")
-          );
-        }
-        if (
-          catChecked.tops === false &&
-          catChecked.bottom === false &&
-          catChecked.footwear === true
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("footwear") ||
-              product.BIcategory.toLowerCase().includes("outerwear")
-          );
-        }
-
-        if (
-          catChecked.tops === true &&
-          catChecked.bottom === true &&
-          catChecked.footwear === false
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("tops") ||
-              product.BIcategory.toLowerCase().includes("bottom") ||
-              product.BIcategory.toLowerCase().includes("outerwear")
-          );
-        }
-
-        if (
-          catChecked.tops === false &&
-          catChecked.bottom === true &&
-          catChecked.footwear === true
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("footwear") ||
-              product.BIcategory.toLowerCase().includes("bottom") ||
-              product.BIcategory.toLowerCase().includes("outerwear")
-          );
-        }
-
-        if (
-          catChecked.tops === true &&
-          catChecked.bottom === false &&
-          catChecked.footwear === true
-        ) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("footwear") ||
-              product.BIcategory.toLowerCase().includes("tops") ||
-              product.BIcategory.toLowerCase().includes("outerwear")
-          );
-        } else {
-          return data.filter((product) =>
-            product.BIcategory.toLowerCase().includes("outerwear")
-          );
-        }
-      }
-      if (catChecked.footwear === true && isCatCheckAll === false) {
-        if (catChecked.tops === true && catChecked.bottom === false) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("footwear") ||
-              product.BIcategory.toLowerCase().includes("tops")
-          );
-        }
-        if (catChecked.bottom === true && catChecked.tops === false) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("footwear") ||
-              product.BIcategory.toLowerCase().includes("bottom")
-          );
-        }
-
-        if (catChecked.tops === true && catChecked.bottom === true) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("tops") ||
-              product.BIcategory.toLowerCase().includes("bottom") ||
-              product.BIcategory.toLowerCase().includes("footwear")
-          );
-        } else {
-          return data.filter((product) =>
-            product.BIcategory.toLowerCase().includes("footwear")
-          );
-        }
-      }
-      if (catChecked.tops === true && isCatCheckAll === false) {
-        if (catChecked.bottom === true) {
-          return data.filter(
-            (product) =>
-              product.BIcategory.toLowerCase().includes("tops") ||
-              product.BIcategory.toLowerCase().includes("bottom")
-          );
-        } else {
-          return data.filter((product) =>
-            product.BIcategory.toLowerCase().includes("tops")
-          );
-        }
-      }
-      if (catChecked.bottom === true && isCatCheckAll === false) {
-        return data.filter((product) =>
-          product.BIcategory.toLowerCase().includes("bottom")
-        );
-      }
-
-      if (isCatCheckAll === true) {
-        return data;
-      } else {
-        return data;
-      }
-    }
-  };
   return (
     <>
       <AnimatedRoute>
@@ -279,16 +143,16 @@ const Products = () => {
                         <li className="sectionListItem">
                           <input
                             type="checkbox"
-                            name="bottom"
-                            id="bottom"
-                            value="bottom"
+                            name="bottoms"
+                            id="bottoms"
+                            value="bottoms"
                             className="filterCheckbox"
                             onChange={() =>
-                              toggleCheck("bottom", setCatChecked)
+                              toggleCheck("bottoms", setCatChecked)
                             }
-                            checked={catChecked["bottom"]}
+                            checked={catChecked["bottoms"]}
                           />
-                          <label htmlFor="bottom">Bottom</label>
+                          <label htmlFor="bottoms">Bottoms</label>
                         </li>
                         <li className="sectionListItem">
                           <input
@@ -369,6 +233,18 @@ const Products = () => {
                         <li className="sectionListItem">
                           <input
                             type="checkbox"
+                            name="m"
+                            id="m"
+                            value="m"
+                            className="filterCheckbox"
+                            onChange={() => toggleCheck("m", setSizeChecked)}
+                            checked={sizeChecked["m"]}
+                          />
+                          <label htmlFor="m">M</label>
+                        </li>
+                        <li className="sectionListItem">
+                          <input
+                            type="checkbox"
                             name="l"
                             id="l"
                             value="l"
@@ -401,6 +277,18 @@ const Products = () => {
                             checked={sizeChecked["xxl"]}
                           />
                           <label htmlFor="xxl">XXL</label>
+                        </li>
+                        <li className="sectionListItem">
+                          <input
+                            type="checkbox"
+                            name="xxxl"
+                            id="xxxl"
+                            value="xxxl"
+                            className="filterCheckbox"
+                            onChange={() => toggleCheck("xxxl", setSizeChecked)}
+                            checked={sizeChecked["xxxl"]}
+                          />
+                          <label htmlFor="xxxl">XXXL</label>
                         </li>
                       </ul>
                     </div>
@@ -501,17 +389,16 @@ const Products = () => {
           </div>
 
           <div className="productsList">
-            {productsList.length !== 0 &&
-              search(productsList).map((product) => (
-                <div className="productContainer" key={product._id}>
-                  <Item
-                    id={product._id}
-                    name={product.BIproductname}
-                    img={product.img[0]}
-                    price={product.BIprice}
-                  />
-                </div>
-              ))}
+            {products.map((product) => (
+              <div className="productContainer" key={product._id}>
+                <Item
+                  id={product._id}
+                  name={product.BIproductname}
+                  img={product.img[0]}
+                  price={product.BIprice}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </AnimatedRoute>

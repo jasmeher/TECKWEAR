@@ -13,10 +13,19 @@ import headwear from "./../../static/accessories.webp";
 import footwear from "./../../static/footwear.webp";
 import jewerly from "./../../static/jewelry.webp";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
+import { useSelector } from "react-redux";
+import { selectAllProducts } from "../../app/slice/productsApiSlice";
 
 const Home = () => {
   const [menHover, setMenHover] = useState(false);
   const [womenHover, setWomenHover] = useState(false);
+  const products = useSelector(selectAllProducts);
+  if (!products) {
+    return <p>No Product Found</p>;
+  }
+
+  const productsSlice = products.slice(0, 8);
+  document.title = "TECKWEAR";
 
   const changeState = (state, change) => {
     state(change);
@@ -163,41 +172,17 @@ const Home = () => {
           </Marquee>
 
           <div className="bottom">
-            <div className="primaryContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={50}
-                discount={50}
-              />
-            </div>
-            <div className="primaryContainer">
-              <Item img={dummy} productName="Teckwear Hoodie" price={50} />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy2}
-                productName="Teckwear Jacket"
-                price={95}
-                discount={15}
-              />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={50}
-                discount={50}
-              />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={50}
-                discount={50}
-              />
-            </div>
+            {productsSlice.map((product) => (
+              <div className="primaryContainer">
+                <Item
+                  id={product.id}
+                  img={product.img}
+                  name={product.BIproductname}
+                  price={product.BIprice}
+                  discount={50}
+                />
+              </div>
+            ))}
           </div>
         </section>
 

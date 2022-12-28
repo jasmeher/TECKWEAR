@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Accordion, Modal } from "react-bootstrap";
 import "./productpage.scss";
-import dummy from "./../../static/dummy.webp";
 import ProductCarousel from "./../../components/ProductCarousel/ProductCarousel";
 import Item from "./../../components/Item/Item";
 import ReviewBox from "./../../components/ReviewBox/ReviewBox";
@@ -11,10 +9,14 @@ import pfp from "./../../static/pfp.webp";
 import { AiFillStar } from "react-icons/ai";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
+import { useSelector } from "react-redux";
+import {
+  selectProductById,
+  selectAllProducts,
+} from "../../app/slice/productsApiSlice";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -40,16 +42,10 @@ const ProductPage = () => {
     }
   };
 
-  const color = product.length !== 0 ? product.BIcolor : "Black";
-
-  const colorArray = color.split(",");
-
-  const size = product.length !== 0 ? product.BIsize : "S,M,L";
-
-  const sizeArray = size.split(",");
-
+  const product = useSelector((state) => selectProductById(state, id));
+  const allProducts = useSelector(selectAllProducts);
   useEffect(() => {
-    if (product.length !== 0) {
+    if (product) {
       const left = document.getElementById("left-arrow");
       const right = document.getElementById("right-arrow");
 
@@ -67,14 +63,29 @@ const ProductPage = () => {
       }
     }
   }, [qty, product]);
+  if (!product) {
+    return <p>Product not found</p>;
+  }
+  if (!allProducts) {
+    return <p>Product List not found</p>;
+  }
 
-  useEffect(() => {
-    const getData = async () => {
-      const res = await axios.get(`http://localhost:5000/product/single/${id}`);
-      setProduct(res.data);
-    };
-    getData();
-  }, [id]);
+  const filteredProducts = allProducts.filter(
+    (filter) => filter.BIproductname !== product.BIproductname
+  );
+  console.log(filteredProducts);
+
+  const color = product.BIcolor;
+
+  const colorArray = color.split(",");
+
+  const size = product.BIsize;
+
+  const sizeArray = size.split(",");
+
+  console.log(product);
+
+  product.length !== 0 && (document.title = product.BIproductname);
 
   return (
     <>
@@ -208,66 +219,17 @@ const ProductPage = () => {
               </div>
 
               <div className="otherProducts">
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
-                <div className="primaryContainer">
-                  <Link to="/product/222" className="text-reset">
-                    <Item
-                      img={dummy}
-                      productName="Teckwear Hoodie"
-                      price={50}
-                      discount={50}
-                    />
-                  </Link>
-                </div>
+                {filteredProducts.map((product) => (
+                  <div className="primaryContainer" key={product.id}>
+                    <Link to="/product/222" className="text-reset">
+                      <Item
+                        img={product.img}
+                        productName={product.BIproductname}
+                        price={product.BIprice}
+                      />
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
 
