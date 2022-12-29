@@ -17,6 +17,11 @@ import {
 import { addToCart } from "../../app/slice/cartSlice";
 import Rating from "@mui/material/Rating";
 import { styled } from "@mui/material/styles";
+import {
+  selectAllReviews,
+  useAddReviewMutation,
+} from "../../app/slice/reviewApiSlice";
+import UseAuth from "../../hooks/UseAuth";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -31,6 +36,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [show, setShow] = useState(false);
+  const { username } = UseAuth();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -41,16 +47,48 @@ const ProductPage = () => {
   const handleSize = (e) => setItemSize(e.target.value);
   const handleColor = (e) => setItemColor(e.target.value);
   const [rating, setRating] = useState("");
-  console.log(rating);
+  const [title, setTitle] = useState("");
+  const [review, setReview] = useState("");
+  const handleTitle = (e) => setTitle(e.target.value);
+  const handleReview = (e) => setReview(e.target.value);
 
   const product = useSelector((state) => selectProductById(state, id));
   const allProducts = useSelector(selectAllProducts);
+  const reviews = useSelector(selectAllReviews);
+  const filterReviews = reviews.filter(
+    (review) => review.product === product.BIproductname
+  );
+  const [addNewReview] = useAddReviewMutation();
+  console.log(filterReviews);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await addNewReview({
+        rating,
+        title,
+        review,
+        product: product.id,
+        user: username,
+      }).unwrap();
+      setTitle("");
+      setRating("");
+      setReview("");
+    } catch (error) {
+      console.log(error);
+      window.alert("An Error has Occured.");
+    }
+  };
 
   if (!product) {
     return <p>Product not found</p>;
   }
   if (!allProducts) {
     return <p>Product List not found</p>;
+  }
+  if (!reviews) {
+    return <p>Review List not found</p>;
   }
 
   const filteredProducts = allProducts.filter(
@@ -246,6 +284,7 @@ const ProductPage = () => {
                         img={product.img}
                         productName={product.BIproductname}
                         price={product.BIprice}
+                        id={product.id}
                       />
                     </Link>
                   </div>
@@ -256,28 +295,32 @@ const ProductPage = () => {
             <div className="reviewsContainer">
               <div className="top">
                 <p className="heading">REVIEWS</p>
-                <button className="cta ctaRedirect" onClick={handleShow}>
-                  Write a Review
-                </button>
+                <Link to={!username && "/signin"}>
+                  <button
+                    className="cta ctaRedirect"
+                    onClick={username && handleShow}
+                  >
+                    Write a Review
+                  </button>
+                </Link>
               </div>
 
               <div className="bottom" id="bottom">
-                <ReviewBox
-                  pfp={pfp}
-                  name="James Smith"
-                  rating={5}
-                  review={
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                  }
-                />
-                <ReviewBox
-                  pfp={pfp}
-                  name="G Smith"
-                  rating={2}
-                  review={
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                  }
-                />
+                {filterReviews.length === 0 && (
+                  <p>
+                    No Reviews of this Product...yet. Write your review to let
+                    the others know about your experience
+                  </p>
+                )}
+                {filterReviews.map((review) => (
+                  <ReviewBox
+                    pfp={pfp}
+                    name={review.user}
+                    rating={review.rating}
+                    review={review.review}
+                    title={review.title}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -300,7 +343,13 @@ const ProductPage = () => {
                   }}
                   className="mb-5"
                 />
-                <input type="text" className="formInput" placeholder="Title" />
+                <input
+                  type="text"
+                  className="formInput"
+                  placeholder="Title"
+                  value={title}
+                  onChange={handleTitle}
+                />
 
                 <textarea
                   name="review"
@@ -308,6 +357,8 @@ const ProductPage = () => {
                   cols="30"
                   rows="10"
                   placeholder="Review"
+                  value={review}
+                  onChange={handleReview}
                 ></textarea>
               </form>
             </div>
@@ -316,7 +367,7 @@ const ProductPage = () => {
             <button className="cta ctaRedirect" onClick={handleClose}>
               Close
             </button>
-            <button className="cta ctaRedirect" onClick={handleClose}>
+            <button className="cta ctaRedirect" onClick={handleSubmit}>
               Submit Review
             </button>
           </Modal.Footer>

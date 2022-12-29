@@ -8,8 +8,10 @@ import { store, persistor } from "./app/store";
 import { Provider } from "react-redux";
 import { productsApiSlice } from "./app/slice/productsApiSlice";
 import { PersistGate } from "redux-persist/integration/react";
+import { reviewApiSlice } from "./app/slice/reviewApiSlice";
 
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
+store.dispatch(reviewApiSlice.endpoints.getReview.initiate());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -2,7 +2,7 @@ import React from "react";
 import "./reviewBox.scss";
 import { AiFillStar } from "react-icons/ai";
 
-const ReviewBox = ({ pfp, name, rating, review }) => {
+const ReviewBox = ({ pfp, name, rating, review, title }) => {
   if (rating > 5) {
     rating = 5;
   }
@@ -29,7 +29,7 @@ const ReviewBox = ({ pfp, name, rating, review }) => {
           </div>
         </div>
         <div className="bottom">
-          <h2 className="mb-3">Title</h2>
+          <h2 className="mb-3">{title}</h2>
           <p className="reviewPara">{review}</p>
         </div>
       </div>

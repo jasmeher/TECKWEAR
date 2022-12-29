@@ -9,7 +9,6 @@ const UseAuth = () => {
   if (token) {
     const decoded = jwtDecode(token);
     const { username, isAdmin } = decoded.UserInfo;
-
     checkAdmin = isAdmin;
 
     return { username, checkAdmin };
