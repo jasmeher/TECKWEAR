@@ -29,6 +29,7 @@ const ReviewBox = ({ pfp, name, rating, review }) => {
           </div>
         </div>
         <div className="bottom">
+          <h2 className="mb-3">Title</h2>
           <p className="reviewPara">{review}</p>
         </div>
       </div>

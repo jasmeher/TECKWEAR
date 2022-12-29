@@ -15,6 +15,17 @@ import {
   selectAllProducts,
 } from "../../app/slice/productsApiSlice";
 import { addToCart } from "../../app/slice/cartSlice";
+import Rating from "@mui/material/Rating";
+import { styled } from "@mui/material/styles";
+
+const StyledRating = styled(Rating)({
+  "& .MuiRating-iconFilled": {
+    color: "#060606",
+  },
+  "& .MuiRating-iconHover": {
+    color: "#312f2f",
+  },
+});
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -25,6 +36,12 @@ const ProductPage = () => {
   const handleShow = () => setShow(true);
 
   const [qty, setQty] = useState(1);
+  const [itemSize, setItemSize] = useState("");
+  const [itemColor, setItemColor] = useState("");
+  const handleSize = (e) => setItemSize(e.target.value);
+  const handleColor = (e) => setItemColor(e.target.value);
+  const [rating, setRating] = useState("");
+  console.log(rating);
 
   const product = useSelector((state) => selectProductById(state, id));
   const allProducts = useSelector(selectAllProducts);
@@ -39,7 +56,6 @@ const ProductPage = () => {
   const filteredProducts = allProducts.filter(
     (filter) => filter.BIproductname !== product.BIproductname
   );
-  console.log(filteredProducts);
 
   const color = product.BIcolor;
 
@@ -49,9 +65,15 @@ const ProductPage = () => {
 
   const sizeArray = size.split(",");
 
-  console.log(product);
-
   product.length !== 0 && (document.title = product.BIproductname);
+
+  const canAddToCart = () => {
+    if (itemSize && itemColor) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <>
@@ -69,7 +91,6 @@ const ProductPage = () => {
                   </Link>
                   /All/
                 </span>
-                {console.log(colorArray)}
                 <span className="productName">{product.BIproductname}</span>
               </p>
             </div>
@@ -96,24 +117,25 @@ const ProductPage = () => {
                     {Array(4)
                       .fill()
                       .map((_, i) => (
-                        <li className="ratingList">
+                        <li className="ratingList" key={i}>
                           <AiFillStar />
                         </li>
                       ))}
                   </ul>
-                  <p className="productPrice">${product.BIprice}.00</p>
+                  <p className="productPrice">${product.BIprice.toFixed(2)}</p>
 
                   <div className="detailsContainer">
                     <p className="detailName">Size:</p>
                     <ul className="detailList">
                       {sizeArray.map((size) => {
                         return (
-                          <li className="detailItem">
+                          <li className="detailItem" key={size}>
                             <input
                               type="radio"
                               value={size}
                               name="size"
                               id={size}
+                              onClick={handleSize}
                             />
                             <label htmlFor={size} className="radioLabel">
                               {size}
@@ -128,19 +150,23 @@ const ProductPage = () => {
                     <ul className="detailList">
                       {colorArray.map((color) => {
                         return (
-                          <li className="detailItem">
+                          <li className="detailItem" key={color}>
                             <input
                               type="radio"
                               value={color}
-                              name="color"
+                              name="coloer"
                               id={color}
+                              onClick={handleColor}
                             />
-                            <label htmlFor={color}>{color}</label>
+                            <label htmlFor={color} className="radioLabel">
+                              {color}
+                            </label>
                           </li>
                         );
                       })}
                     </ul>
                   </div>
+
                   <div className="detailsContainer">
                     <p className="detailName">Quantity:</p>
                     <div className="quantityContainer">
@@ -167,7 +193,18 @@ const ProductPage = () => {
                   </div>
                   <button
                     className="cta w-50 productCTA"
-                    onClick={() => dispatch(addToCart({ id: product.id }))}
+                    onClick={() =>
+                      dispatch(
+                        addToCart({
+                          id: product.id,
+                          qty,
+                          size: itemSize,
+                          color: itemColor,
+                          price: product.BIprice,
+                        })
+                      )
+                    }
+                    disabled={!canAddToCart()}
                   >
                     ADD TO CART
                   </button>
@@ -253,11 +290,17 @@ const ProductPage = () => {
           <Modal.Body>
             <div className="modalContainer">
               <form method="post" className="reviewForm">
-                <input
-                  type="text"
-                  className="formInput"
-                  placeholder="Enter your Name"
+                <p>RATING</p>
+                <StyledRating
+                  name="rating"
+                  size="large"
+                  defaultValue={0}
+                  onChange={(event, newValue) => {
+                    setRating(newValue);
+                  }}
+                  className="mb-5"
                 />
+                <input type="text" className="formInput" placeholder="Title" />
 
                 <textarea
                   name="review"

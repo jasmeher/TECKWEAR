@@ -4,9 +4,10 @@ import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./global.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "./app/store";
+import { store, persistor } from "./app/store";
 import { Provider } from "react-redux";
 import { productsApiSlice } from "./app/slice/productsApiSlice";
+import { PersistGate } from "redux-persist/integration/react";
 
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
 
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={"loading.."} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

@@ -12,7 +12,6 @@ import { selectAllCartProducts } from "../../app/slice/cartSlice";
 
 const Nav = () => {
   const { username } = UseAuth();
-  console.log(username);
   const [navShow, setNavShow] = useState(false);
   const [cartShow, setCartShow] = useState(false);
 
@@ -31,12 +30,24 @@ const Nav = () => {
   const [sendLogOut, { isLoading, isSuccess, isError, error }] =
     useSendLogOutMutation();
   const cartProducts = useSelector(selectAllCartProducts);
+  const totalPrice = () => {
+    let total = 0;
+    cartProducts.forEach((product) => {
+      total += product.qty * product.price;
+    });
+    return total.toFixed(2);
+  };
 
   useEffect(() => {
     if (isSuccess) {
       navigate("/");
     }
   }, [isSuccess, navigate]);
+
+  useEffect(() => {
+    totalPrice();
+    //eslint-disable-next-line
+  }, [cartProducts]);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error.data?.message}</p>;
@@ -417,9 +428,10 @@ const Nav = () => {
               {cartProducts.map((product) => (
                 <CartItem
                   id={product.id}
-                  quantity={product.quantity}
+                  quantity={product.qty}
                   color={product.color}
                   size={product.size}
+                  key={product.id}
                 />
               ))}
             </div>
@@ -433,7 +445,7 @@ const Nav = () => {
               <div className="totalPriceContainer">
                 <div className="priceContainer">
                   <span className="priceTitle">Total:</span>
-                  <span className="price">$100.00</span>
+                  <span className="price">${totalPrice()}</span>
                 </div>
                 <div className="priceContainer">
                   <span className="priceTitle">Shipping:</span>

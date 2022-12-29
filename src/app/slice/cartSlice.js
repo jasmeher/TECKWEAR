@@ -12,8 +12,11 @@ const cartSlice = createSlice({
       const duplicate = state.products.find(
         (product) => product.id === action.payload.id
       );
+      console.log(state.products);
       if (duplicate) {
-        duplicate.quantity = action.payload.quantity;
+        duplicate.qty = action.payload.qty;
+        duplicate.color = action.payload.color;
+        duplicate.size = action.payload.size;
       } else {
         state.products.push(action.payload);
       }

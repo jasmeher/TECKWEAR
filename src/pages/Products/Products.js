@@ -395,7 +395,7 @@ const Products = () => {
                   id={product._id}
                   name={product.BIproductname}
                   img={product.img[0]}
-                  price={product.BIprice}
+                  price={product.BIprice.toFixed(2)}
                 />
               </div>
             ))}
