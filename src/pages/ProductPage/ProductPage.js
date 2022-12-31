@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Accordion, Modal } from "react-bootstrap";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import "./productpage.scss";
 import ProductCarousel from "./../../components/ProductCarousel/ProductCarousel";
 import Item from "./../../components/Item/Item";
@@ -12,7 +13,7 @@ import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProductById,
-  selectAllProducts,
+  useGetProductsQuery,
 } from "../../app/slice/productsApiSlice";
 import { addToCart } from "../../app/slice/cartSlice";
 import Rating from "@mui/material/Rating";
@@ -31,6 +32,14 @@ const StyledRating = styled(Rating)({
     color: "#312f2f",
   },
 });
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    fontSize: "1.2rem",
+  },
+}));
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -53,9 +62,31 @@ const ProductPage = () => {
   const handleReview = (e) => setReview(e.target.value);
 
   const product = useSelector((state) => selectProductById(state, id));
-  const allProducts = useSelector(selectAllProducts);
+  const {
+    data: otherProducts,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProductsQuery();
+  let content;
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+  if (isError) {
+    content = <p>Error: {error?.data?.message}</p>;
+  }
+  if (isSuccess) {
+    const { ids } = otherProducts;
+    const filteredIds = ids.filter((productId) => productId !== id);
+    content = filteredIds.map((productId) => (
+      <div className="primaryContainer" key={productId}>
+        <Item id={productId} />
+      </div>
+    ));
+  }
   const reviews = useSelector(selectAllReviews);
-  const filterReviews = reviews.filter(
+  const filterReviews = reviews?.filter(
     (review) => review.product === product.BIproductname
   );
   const [addNewReview] = useAddReviewMutation();
@@ -84,16 +115,6 @@ const ProductPage = () => {
   if (!product) {
     return <p>Product not found</p>;
   }
-  if (!allProducts) {
-    return <p>Product List not found</p>;
-  }
-  if (!reviews) {
-    return <p>Review List not found</p>;
-  }
-
-  const filteredProducts = allProducts.filter(
-    (filter) => filter.BIproductname !== product.BIproductname
-  );
 
   const color = product.BIcolor;
 
@@ -273,36 +294,33 @@ const ProductPage = () => {
             <div className="bottom">
               <div className="top">
                 <p className="heading">OTHER PRODUCTS</p>
-                <button className="cta ctaRedirect">BROWSE</button>
+                <Link
+                  className="text-reset"
+                  to={`/products/${product.BIgender}`}
+                >
+                  <button className="cta ctaRedirect">BROWSE</button>
+                </Link>
               </div>
 
-              <div className="otherProducts">
-                {filteredProducts.map((product) => (
-                  <div className="primaryContainer" key={product.id}>
-                    <Link to="/product/222" className="text-reset">
-                      <Item
-                        img={product.img}
-                        productName={product.BIproductname}
-                        price={product.BIprice}
-                        id={product.id}
-                      />
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              <div className="otherProducts">{content}</div>
             </div>
 
             <div className="reviewsContainer">
               <div className="top">
                 <p className="heading">REVIEWS</p>
-                <Link to={!username && "/signin"}>
-                  <button
-                    className="cta ctaRedirect"
-                    onClick={username && handleShow}
-                  >
-                    Write a Review
-                  </button>
-                </Link>
+                <LightTooltip
+                  title={!username && "Sign In to review this product"}
+                  followCursor
+                >
+                  <Link to={!username && "/signin"}>
+                    <button
+                      className="cta ctaRedirect"
+                      onClick={username && handleShow}
+                    >
+                      Write a Review
+                    </button>
+                  </Link>
+                </LightTooltip>
               </div>
 
               <div className="bottom" id="bottom">

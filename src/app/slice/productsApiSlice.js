@@ -11,7 +11,7 @@ const initialState = productsAdaptor.getInitialState();
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => "/product",
+      query: (gender) => (gender ? `/product?BIgender=${gender}` : "/product"),
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },

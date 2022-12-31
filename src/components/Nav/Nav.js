@@ -9,6 +9,7 @@ import UseAuth from "../../hooks/UseAuth";
 import { useSendLogOutMutation } from "../../app/slice/authApiSlice";
 import { useSelector } from "react-redux";
 import { selectAllCartProducts } from "../../app/slice/cartSlice";
+import { selectAllProducts } from "../../app/slice/productsApiSlice";
 
 const Nav = () => {
   const { username } = UseAuth();
@@ -30,6 +31,9 @@ const Nav = () => {
   const [sendLogOut, { isLoading, isSuccess, isError, error }] =
     useSendLogOutMutation();
   const cartProducts = useSelector(selectAllCartProducts);
+  const products = useSelector(selectAllProducts);
+  const men = products?.filter((product) => product.BIgender === "men");
+  const women = products?.filter((product) => product.BIgender === "women");
   const totalPrice = () => {
     let total = 0;
     cartProducts.forEach((product) => {
@@ -75,33 +79,66 @@ const Nav = () => {
                       <Link to="/products/men" className="text-reset">
                         <li className="subMenuListItem">
                           <p className="listTitle">All</p>
-                          <p className="amount">128</p>
+                          <p className="amount">{men?.length}</p>
                         </li>
                       </Link>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Sale</p>
-                        <p className="amount">28</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">New</p>
-                        <p className="amount">33</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Tops</p>
-                        <p className="amount">45</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Bottoms</p>
-                        <p className="amount">93</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Footwear</p>
-                        <p className="amount">23</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Outerwear</p>
-                        <p className="amount">13</p>
-                      </li>
+                      <Link to="/products/men?tops=true" className="text-reset">
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Tops</p>
+                          <p className="amount">
+                            {
+                              men?.filter(
+                                (product) => product.BIcategory === "tops"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/men?bottoms=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Bottoms</p>
+                          <p className="amount">
+                            {
+                              men?.filter(
+                                (product) => product.BIcategory === "bottoms"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/men?footwear=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Footwear</p>
+                          <p className="amount">
+                            {
+                              men?.filter(
+                                (product) => product.BIcategory === "footwear"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/men?outerwear=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Outerwear</p>
+                          <p className="amount">
+                            {
+                              men?.filter(
+                                (product) => product.BIcategory === "outerwear"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
                     </ul>
                   </div>
                 </div>
@@ -111,34 +148,72 @@ const Nav = () => {
                 <div className="subMenu">
                   <div className="inner">
                     <ul className="subMenuList">
-                      <li className="subMenuListItem">
-                        <p className="listTitle">All</p>
-                        <p className="amount">128</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Sale</p>
-                        <p className="amount">28</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">New</p>
-                        <p className="amount">33</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Tops</p>
-                        <p className="amount">45</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Bottoms</p>
-                        <p className="amount">93</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Footwear</p>
-                        <p className="amount">23</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Outerwear</p>
-                        <p className="amount">43</p>
-                      </li>
+                      <Link to="/products/women" className="text-reset">
+                        <li className="subMenuListItem">
+                          <p className="listTitle">All</p>
+                          <p className="amount">{women?.length}</p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/women?tops=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Tops</p>
+                          <p className="amount">
+                            {
+                              women?.filter(
+                                (product) => product.BIcategory === "tops"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/women?bottoms=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Bottoms</p>
+                          <p className="amount">
+                            {
+                              women?.filter(
+                                (product) => product.BIcategory === "bottoms"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/women?footwear=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Footwear</p>
+                          <p className="amount">
+                            {
+                              women?.filter(
+                                (product) => product.BIcategory === "footwear"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
+                      <Link
+                        to="/products/women?outerwear=true"
+                        className="text-reset"
+                      >
+                        <li className="subMenuListItem">
+                          <p className="listTitle">Outerwear</p>
+                          <p className="amount">
+                            {
+                              women?.filter(
+                                (product) => product.BIcategory === "outerwear"
+                              ).length
+                            }
+                          </p>
+                        </li>
+                      </Link>
                     </ul>
                   </div>
                 </div>
@@ -425,15 +500,19 @@ const Nav = () => {
         <Offcanvas.Body>
           <div className="shoppingCartOffCanvas">
             <div className="top" id="top">
-              {cartProducts.map((product) => (
-                <CartItem
-                  id={product.id}
-                  quantity={product.qty}
-                  color={product.color}
-                  size={product.size}
-                  key={product.id}
-                />
-              ))}
+              {cartProducts?.length === 0 ? (
+                <p>No Items in your Cart</p>
+              ) : (
+                cartProducts.map((product) => (
+                  <CartItem
+                    id={product.id}
+                    quantity={product.qty}
+                    color={product.color}
+                    size={product.size}
+                    key={product.id}
+                  />
+                ))
+              )}
             </div>
 
             <div className="bottom" id="bottom">
@@ -452,7 +531,9 @@ const Nav = () => {
                   <span className="price">FREE SHIPPING</span>
                 </div>
 
-                <button className="cta">CONTINUE TO CHECKOUT</button>
+                <button className="cta" disabled={!cartProducts?.length}>
+                  CONTINUE TO CHECKOUT
+                </button>
               </div>
             </div>
           </div>

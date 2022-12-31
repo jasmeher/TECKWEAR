@@ -13,23 +13,40 @@ import headwear from "./../../static/accessories.webp";
 import footwear from "./../../static/footwear.webp";
 import jewerly from "./../../static/jewelry.webp";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
-import { useSelector } from "react-redux";
-import { selectAllProducts } from "../../app/slice/productsApiSlice";
+import { useGetProductsQuery } from "../../app/slice/productsApiSlice";
 
 const Home = () => {
   const [menHover, setMenHover] = useState(false);
   const [womenHover, setWomenHover] = useState(false);
-  const products = useSelector(selectAllProducts);
-  if (!products) {
-    return <p>No Product Found</p>;
+  const {
+    data: products,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetProductsQuery();
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
-
-  const productsSlice = products.slice(0, 8);
+  let content;
+  if (isError) {
+    content = <p>Error has occured: {error?.data?.message}</p>;
+  }
+  if (isSuccess) {
+    const { ids } = products;
+    const filteredIds = ids.slice(0, 6);
+    content =
+      ids?.length &&
+      filteredIds.map((productId) => (
+        <div className="primaryContainer" key={productId}>
+          <Item id={productId} />
+        </div>
+      ));
+  }
   document.title = "TECKWEAR";
 
   const changeState = (state, change) => {
     state(change);
-    console.log(menHover);
   };
   return (
     <>
@@ -171,19 +188,7 @@ const Home = () => {
             <p className="featured">NEW ARRIVALS</p>
           </Marquee>
 
-          <div className="bottom">
-            {productsSlice.map((product) => (
-              <div className="primaryContainer">
-                <Item
-                  id={product.id}
-                  img={product.img}
-                  name={product.BIproductname}
-                  price={product.BIprice}
-                  discount={50}
-                />
-              </div>
-            ))}
-          </div>
+          <div className="bottom">{content}</div>
         </section>
 
         <section className="subCategory">
