@@ -9,6 +9,7 @@ import Products from "./../../pages/Products/Products";
 import SignIn from "./../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import PersistLogin from "../../pages/SignIn/PersistLogin";
+import Payment from "../../pages/Payment/Payment";
 
 const AnimatedRoute = () => {
   const location = useLocation();
@@ -59,6 +60,14 @@ const AnimatedRoute = () => {
               <>
                 <SignUp />
                 <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <>
+                <Payment />
               </>
             }
           />
