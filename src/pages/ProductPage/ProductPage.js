@@ -45,8 +45,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [show, setShow] = useState(false);
-  const { username } = UseAuth();
-
+  const { username, userId } = UseAuth();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -86,11 +85,11 @@ const ProductPage = () => {
     ));
   }
   const reviews = useSelector(selectAllReviews);
+
   const filterReviews = reviews?.filter(
     (review) => review.product === product.BIproductname
   );
   const [addNewReview] = useAddReviewMutation();
-  console.log(filterReviews);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,11 +100,12 @@ const ProductPage = () => {
         title,
         review,
         product: product.id,
-        user: username,
+        user: userId,
       }).unwrap();
       setTitle("");
       setRating("");
       setReview("");
+      handleClose();
     } catch (error) {
       console.log(error);
       window.alert("An Error has Occured.");

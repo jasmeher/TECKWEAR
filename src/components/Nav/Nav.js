@@ -311,7 +311,13 @@ const Nav = () => {
           <div className="right-md">
             <div className="cartIcon me-5">
               <FiShoppingCart className="icon " onClick={handleCartShow} />
-              <span className="totalItems">2</span>
+              <span
+                className={`totalItems ${
+                  cartProducts.length === 0 && "d-none"
+                }`}
+              >
+                {cartProducts.length}
+              </span>
             </div>
             <FiMenu className="icon" onClick={handleNavShow} />
           </div>
@@ -531,7 +537,14 @@ const Nav = () => {
                   <span className="price">FREE SHIPPING</span>
                 </div>
 
-                <button className="cta" disabled={!cartProducts?.length}>
+                <button
+                  className="cta"
+                  disabled={!cartProducts?.length}
+                  onClick={() => {
+                    navigate("/checkout");
+                    handleCartClose();
+                  }}
+                >
                   CONTINUE TO CHECKOUT
                 </button>
               </div>

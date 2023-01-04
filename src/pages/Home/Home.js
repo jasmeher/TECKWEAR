@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Modal } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import "./home.scss";
 import hero from "./../../static/hero.webp";
@@ -14,10 +16,42 @@ import footwear from "./../../static/footwear.webp";
 import jewerly from "./../../static/jewelry.webp";
 import AnimatedRoute from "../../components/AnimatedPage/AnimatedPage";
 import { useGetProductsQuery } from "../../app/slice/productsApiSlice";
+import { resetCart } from "../../app/slice/cartSlice";
+import { BsFillCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 
 const Home = () => {
   const [menHover, setMenHover] = useState(false);
   const [womenHover, setWomenHover] = useState(false);
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const queryParams = new URLSearchParams(window.location.search);
+  const sessionId = queryParams.get("session");
+  const success = queryParams.get("success");
+  const cancelled = queryParams.get("cancelled");
+  useEffect(() => {
+    if (success) {
+      console.log(success);
+      dispatch(resetCart());
+      handleShow();
+      const editOrder = async () => {
+        const response = await fetch(
+          `http://localhost:5000/order/single/${sessionId}`,
+          {
+            method: "PATCH",
+          }
+        );
+      };
+      editOrder();
+      setTimeout(() => handleClose(), 5000);
+    }
+    if (cancelled) {
+      handleShow();
+      setTimeout(() => handleClose(), 5000);
+    }
+  }, [success, dispatch, cancelled, sessionId]);
   const {
     data: products,
     isLoading,
@@ -48,6 +82,7 @@ const Home = () => {
   const changeState = (state, change) => {
     state(change);
   };
+
   return (
     <>
       <AnimatedRoute>
@@ -214,6 +249,33 @@ const Home = () => {
             <p className="catName">JEWELRY</p>
           </div>
         </section>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          animation={false}
+          centered
+          size="lg"
+        >
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Body>
+            <div className="modalBody">
+              {success && (
+                <div className="modalInner">
+                  <BsFillCheckCircleFill className="icon" />
+
+                  <h2 className="confirmation">Order Successful</h2>
+                </div>
+              )}
+              {cancelled && (
+                <div className="modalInner">
+                  <BsXCircleFill className="icon" />
+
+                  <h2 className="confirmation">Order Cancelled</h2>
+                </div>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
       </AnimatedRoute>
     </>
   );
