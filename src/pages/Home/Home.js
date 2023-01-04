@@ -37,6 +37,7 @@ const Home = () => {
       dispatch(resetCart());
       handleShow();
       const editOrder = async () => {
+        //eslint-disable-next-line
         const response = await fetch(
           `http://localhost:5000/order/single/${sessionId}`,
           {
