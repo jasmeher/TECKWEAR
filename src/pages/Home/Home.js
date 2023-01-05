@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import "./home.scss";
 import hero from "./../../static/hero.webp";
 import Item from "./../../components/Item/Item";
-import dummy from "./../../static/dummy.webp";
-import dummy2 from "./../../static/dummy2.webp";
 import men from "./../../static/men.webp";
 import women from "./../../static/women2.webp";
 import accessories from "./../../static/accessories2.webp";
@@ -25,12 +23,16 @@ const Home = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    navigate("/", { replace: true });
+  };
   const handleShow = () => setShow(true);
   const queryParams = new URLSearchParams(window.location.search);
   const sessionId = queryParams.get("session");
   const success = queryParams.get("success");
   const cancelled = queryParams.get("cancelled");
+  const navigate = useNavigate();
   useEffect(() => {
     if (success) {
       console.log(success);
@@ -52,6 +54,7 @@ const Home = () => {
       handleShow();
       setTimeout(() => handleClose(), 5000);
     }
+    //eslint-disable-next-line
   }, [success, dispatch, cancelled, sessionId]);
   const {
     data: products,
@@ -64,15 +67,28 @@ const Home = () => {
     return <p>Loading...</p>;
   }
   let content;
+  let bestSelling;
   if (isError) {
     content = <p>Error has occured: {error?.data?.message}</p>;
+    bestSelling = <p>Error has occured: {error?.data?.message}</p>;
   }
   if (isSuccess) {
-    const { ids } = products;
+    const { ids, entities } = products;
     const filteredIds = ids.slice(0, 6);
     content =
       ids?.length &&
       filteredIds.map((productId) => (
+        <div className="primaryContainer" key={productId}>
+          <Item id={productId} />
+        </div>
+      ));
+
+    const bestSellingIds = ids
+      .slice()
+      .sort((a, b) => entities[b].BIprice - entities[a].BIprice);
+    bestSelling =
+      ids?.length &&
+      bestSellingIds.map((productId) => (
         <div className="primaryContainer" key={productId}>
           <Item id={productId} />
         </div>
@@ -123,56 +139,18 @@ const Home = () => {
 
         <section className="featuredClothes">
           <Marquee speed={150} gradient={false} className="top">
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
-            <p className="featured">FEATURED</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
+            <p className="featured">BEST SELLING</p>
           </Marquee>
 
-          <div className="bottom">
-            <div className="primaryContainer">
-              <Link to="/product/222" className="text-reset">
-                <Item
-                  img={dummy}
-                  productName="Teckwear Hoodie"
-                  price={50}
-                  discount={50}
-                />
-              </Link>
-            </div>
-            <div className="primaryContainer">
-              <Item img={dummy} productName="Teckwear Hoodie" price={50} />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy2}
-                productName="Teckwear Jacket"
-                price={95}
-                discount={15}
-              />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={50}
-                discount={50}
-              />
-            </div>
-            <div className="primaryContainer">
-              <Item
-                img={dummy}
-                productName="Teckwear Hoodie"
-                price={50}
-                discount={50}
-              />
-            </div>
-          </div>
+          <div className="bottom">{bestSelling}</div>
         </section>
 
         <section className="category">

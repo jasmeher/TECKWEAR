@@ -218,44 +218,6 @@ const Nav = () => {
                   </div>
                 </div>
               </li>
-              <li className="listItem">
-                Unisex
-                <div className="subMenu">
-                  <div className="inner">
-                    <ul className="subMenuList">
-                      <li className="subMenuListItem">
-                        <p className="listTitle">All</p>
-                        <p className="amount">128</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Sale</p>
-                        <p className="amount">28</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">New</p>
-                        <p className="amount">33</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Tops</p>
-                        <p className="amount">45</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Bottoms</p>
-                        <p className="amount">93</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Footwear</p>
-                        <p className="amount">23</p>
-                      </li>
-                      <li className="subMenuListItem">
-                        <p className="listTitle">Outerwear</p>
-                        <p className="amount">53</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li className="listItem">Accessories</li>
               <li className="listItem">About</li>
             </ul>
           </div>
@@ -346,33 +308,70 @@ const Nav = () => {
                   >
                     <li className="accordionListItem">
                       <span className="listTitle">All</span>
-                      <span className="amount">122</span>
+                      <span className="amount">{men?.length}</span>
                     </li>
                   </Link>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">New</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Tops</span>
-                    <span className="amount">40</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Bottoms</span>
-                    <span className="amount">32</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Footwear</span>
-                    <span className="amount">52</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Outerwear</span>
-                    <span className="amount">22</span>
-                  </li>
+
+                  <Link
+                    to="/products/men?tops=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Tops</span>
+                      <span className="amount">
+                        {
+                          men?.filter(
+                            (product) => product.BIcategory === "tops"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/products/men?bottoms=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Bottoms</span>
+                      <span className="amount">
+                        {
+                          men?.filter(
+                            (product) => product.BIcategory === "bottoms"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link to="/products/men?footwear=true" className="text-reset">
+                    <li className="accordionListItem">
+                      <span className="listTitle">Footwear</span>
+                      <span className="amount">
+                        {
+                          men?.filter(
+                            (product) => product.BIcategory === "footwear"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/products/men?outerwear=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Outerwear</span>
+                      <span className="amount">
+                        {
+                          men?.filter(
+                            (product) => product.BIcategory === "outerwear"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
                 </ul>
               </Accordion.Body>
             </Accordion.Item>
@@ -380,76 +379,85 @@ const Nav = () => {
               <Accordion.Header>WOMEN</Accordion.Header>
               <Accordion.Body>
                 <ul className="accordionList">
-                  <li className="accordionListItem">
-                    <span className="listTitle">All</span>
-                    <span className="amount">122</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">New</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Tops</span>
-                    <span className="amount">40</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Bottoms</span>
-                    <span className="amount">32</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Footwear</span>
-                    <span className="amount">52</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Outerwear</span>
-                    <span className="amount">22</span>
-                  </li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header>UNISEX</Accordion.Header>
-              <Accordion.Body>
-                <ul className="accordionList">
-                  <li className="accordionListItem">
-                    <span className="listTitle">All</span>
-                    <span className="amount">122</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Sale</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">New</span>
-                    <span className="amount">22</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Tops</span>
-                    <span className="amount">40</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Bottoms</span>
-                    <span className="amount">32</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Footwear</span>
-                    <span className="amount">52</span>
-                  </li>
-                  <li className="accordionListItem">
-                    <span className="listTitle">Outerwear</span>
-                    <span className="amount">22</span>
-                  </li>
+                  <Link
+                    to="/products/women"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">All</span>
+                      <span className="amount">{women?.length}</span>
+                    </li>
+                  </Link>
+
+                  <Link
+                    to="/products/women?tops=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Tops</span>
+                      <span className="amount">
+                        {
+                          women?.filter(
+                            (product) => product.BIcategory === "tops"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/products/women?bottoms=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Bottoms</span>
+                      <span className="amount">
+                        {
+                          women?.filter(
+                            (product) => product.BIcategory === "bottoms"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/products/women?footwear=true"
+                    className="text-reset"
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Footwear</span>
+                      <span className="amount">
+                        {
+                          women?.filter(
+                            (product) => product.BIcategory === "footwear"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
+                  <Link
+                    to="/products/women?outerwear=true"
+                    className="text-reset"
+                    onClick={handleNavClose}
+                  >
+                    <li className="accordionListItem">
+                      <span className="listTitle">Outerwear</span>
+                      <span className="amount">
+                        {
+                          women?.filter(
+                            (product) => product.BIcategory === "outerwear"
+                          ).length
+                        }
+                      </span>
+                    </li>
+                  </Link>
                 </ul>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <ul className="offcanvasList">
-            <li className="offCanvasItem">ACCESSORIES</li>
-          </ul>
+
           {username ? (
             <Accordion alwaysOpen flush>
               <Accordion.Item eventKey="0">
@@ -530,7 +538,7 @@ const Nav = () => {
               <div className="totalPriceContainer">
                 <div className="priceContainer">
                   <span className="priceTitle">Total:</span>
-                  <span className="price">${totalPrice()}</span>
+                  <span className="price">₹{totalPrice()}</span>
                 </div>
                 <div className="priceContainer">
                   <span className="priceTitle">Shipping:</span>

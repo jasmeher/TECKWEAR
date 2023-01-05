@@ -19,7 +19,7 @@ const CartItem = ({ id, quantity, color, size }) => {
             <p className="productName">{product.BIproductname}</p>
             <FiX className="icon" onClick={() => dispatch(removeProduct(id))} />
           </div>
-          <p className="price">${product.BIprice}</p>
+          <p className="price">₹{product.BIprice.toFixed(2)}</p>
           <div className="bottom">
             <div className="detailsContainer">
               <p className="detailTitle">Color: </p>

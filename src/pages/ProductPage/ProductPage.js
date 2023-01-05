@@ -163,10 +163,10 @@ const ProductPage = () => {
                 <div className="top">
                   <p className="productName">{product.BIproductname}</p>
                   {product.BIqty >= 80 && <p className="instock">In Stock</p>}
-                  {product.BIqty <= 80 && (
+                  {product.BIqty <= 80 && product.BIqty > 0 && (
                     <p className="lowstock">Low on Stock</p>
                   )}
-                  {product.BIqty <= 10 && (
+                  {product.BIqty <= 10 && product.BIqty > 0 && (
                     <p className="lowstock">Only {product.BIqty} Left</p>
                   )}
                   {product.BIqty === 0 && (
@@ -181,7 +181,7 @@ const ProductPage = () => {
                         </li>
                       ))}
                   </ul>
-                  <p className="productPrice">${product.BIprice.toFixed(2)}</p>
+                  <p className="productPrice">₹{product.BIprice.toFixed(2)}</p>
 
                   <div className="detailsContainer">
                     <p className="detailName">Size:</p>
@@ -240,9 +240,15 @@ const ProductPage = () => {
                       </div>
                       <p className="quantity">{qty}</p>
                       <div
-                        className={`arrow ${qty === 5 && "disabled"}`}
+                        className={`arrow ${
+                          (qty === 5 || qty === product.BIqty) && "disabled"
+                        }`}
                         onClick={() =>
-                          setQty((prev) => (prev === 5 ? 5 : prev + 1))
+                          setQty((prev) =>
+                            prev === product.BIqty || prev === 5
+                              ? prev
+                              : prev + 1
+                          )
                         }
                         id="right-arrow"
                       >
