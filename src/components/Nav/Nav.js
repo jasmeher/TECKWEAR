@@ -86,7 +86,9 @@ const Nav = () => {
     <>
       <div className="containerNav">
         <Marquee gradient={false} speed={150} className="disclaimerMarquee">
-          <p>PORTFOLIO WEBSITE, NOT A REAL WEBSITE!! WIP</p>
+          <p>
+            PORTFOLIO WEBSITE WIP, Disable AdBlock if page is stuck on loading.
+          </p>
         </Marquee>
         <nav className={scroll ? "navigation" : "navigation alt"}>
           <div className="left">
