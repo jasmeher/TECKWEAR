@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
+import { Skeleton, Stack } from "@mui/material";
 import "./home.scss";
 import hero from "./../../static/hero.webp";
 import Item from "./../../components/Item/Item";
@@ -26,6 +27,7 @@ const Home = () => {
   const handleClose = () => {
     setShow(false);
     navigate("/", { replace: true });
+    window.location.reload();
   };
   const handleShow = () => setShow(true);
   const queryParams = new URLSearchParams(window.location.search);
@@ -35,7 +37,6 @@ const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (success) {
-      console.log(success);
       dispatch(resetCart());
       handleShow();
       const editOrder = async () => {
@@ -64,7 +65,16 @@ const Home = () => {
     error,
   } = useGetProductsQuery();
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Stack spacing={1}>
+        <Skeleton
+          variant="rectangular"
+          width={"100%"}
+          height={"92vh"}
+          animation="wave"
+        />
+      </Stack>
+    );
   }
   let content;
   let bestSelling;

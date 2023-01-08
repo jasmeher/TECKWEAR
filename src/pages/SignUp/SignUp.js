@@ -24,7 +24,6 @@ const SignUp = () => {
     const value = type === "checkbox" ? e.target.checked : e.target.value;
 
     setData((prevData) => ({ ...prevData, [name]: value }));
-    console.log(data);
   };
 
   const handleSubmit = async (e) => {

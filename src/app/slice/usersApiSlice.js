@@ -8,10 +8,12 @@ const initialState = usersAdaptor.getInitialState();
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
-      query: (userId) => `/user/single/${userId}`,
-      validateStatus: (response, result) => {
-        return response.status === 200 && !result.isError;
-      },
+      query: (userId) => ({
+        url: `/user/single/${userId}`,
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
+        },
+      }),
       providesTags: (result, err, arg) => {
         if (result?._ids) {
           return [

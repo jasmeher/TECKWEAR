@@ -1,4 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
+import { Skeleton, Stack } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import { useRefreshMutation } from "../../app/slice/authApiSlice";
 import usePersist from "../../hooks/UsePersist";
@@ -35,13 +36,20 @@ const PersistLogin = () => {
 
   let content;
   if (!persist) {
-    console.log("no persist");
     content = <Outlet />;
   } else if (isLoading) {
-    content = <p>Loading...</p>;
+    content = (
+      <Stack spacing={1}>
+        <Skeleton
+          variant="rectangular"
+          width={"100%"}
+          height={"92vh"}
+          animation="wave"
+        />
+      </Stack>
+    );
   } else if (isError) {
     if (location.pathname === "/profile") {
-      console.log("error");
       return (content = (
         <p className="err">
           {error.data?.message} <Link to="/">Please Login Again</Link>
@@ -50,11 +58,8 @@ const PersistLogin = () => {
     }
     content = <Outlet />;
   } else if (isSuccess && trueSuccess) {
-    console.log("success");
     content = <Outlet />;
   } else if (token && isUninitialized) {
-    console.log("token and uninit");
-    console.log(isUninitialized);
     content = <Outlet />;
   }
 

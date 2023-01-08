@@ -9,7 +9,8 @@ import Products from "./../../pages/Products/Products";
 import SignIn from "./../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import PersistLogin from "../../pages/SignIn/PersistLogin";
-import Checkout from "../../pages/Checkout/Checkout";
+import Orders from "../../pages/Orders/Orders";
+import RequireAuth from "./RequireAuth";
 
 const AnimatedRoute = () => {
   const location = useLocation();
@@ -63,15 +64,18 @@ const AnimatedRoute = () => {
               </>
             }
           />
-          <Route
-            path="/checkout"
-            element={
-              <>
-                <Checkout />
-                <Footer />
-              </>
-            }
-          />
+
+          <Route element={<RequireAuth />}>
+            <Route
+              path="/orders"
+              element={
+                <>
+                  <Orders />
+                  <Footer />
+                </>
+              }
+            />
+          </Route>
         </Route>
       </Routes>
     </AnimatePresence>

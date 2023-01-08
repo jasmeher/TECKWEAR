@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../app/slice/authApiSlice";
 import { setCredentials } from "../../app/slice/authSlice";
 import UsePersist from "../../hooks/UsePersist";
+import { CircularProgress } from "@mui/material";
 
 const SignIn = () => {
   const errRef = useRef();
@@ -45,12 +46,20 @@ const SignIn = () => {
     }
   };
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const siError = queryParams.get("siError");
+
   useEffect(() => {
-    setErrMsg("");
-  }, [username, password]);
+    if ((username, password)) {
+      setErrMsg("");
+    }
+    if (siError) {
+      setErrMsg("Please Sign in To Continue");
+    }
+  }, [username, password, siError]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <CircularProgress />;
   }
 
   return (

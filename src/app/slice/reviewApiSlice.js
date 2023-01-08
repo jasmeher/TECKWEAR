@@ -11,10 +11,12 @@ const initialState = reviewAdaptor.getInitialState();
 export const reviewApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getReview: builder.query({
-      query: () => "/review",
-      validateStatus: (response, result) => {
-        return response.status === 200 && !result.isError;
-      },
+      query: () => ({
+        url: "/review",
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
+        },
+      }),
       keepUnusedDataFor: 5,
       transformResponse: (responseData) => {
         let min = 1;

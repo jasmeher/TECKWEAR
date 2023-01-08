@@ -9,9 +9,11 @@ import { Provider } from "react-redux";
 import { productsApiSlice } from "./app/slice/productsApiSlice";
 import { PersistGate } from "redux-persist/integration/react";
 import { reviewApiSlice } from "./app/slice/reviewApiSlice";
+import { ordersApiSlice } from "./app/slice/ordersApiSlice";
 
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
 store.dispatch(reviewApiSlice.endpoints.getReview.initiate());
+store.dispatch(ordersApiSlice.endpoints.getOrders.initiate());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

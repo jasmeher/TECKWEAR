@@ -23,6 +23,7 @@ import {
   useAddReviewMutation,
 } from "../../app/slice/reviewApiSlice";
 import UseAuth from "../../hooks/UseAuth";
+import { CircularProgress } from "@mui/material";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -48,7 +49,7 @@ const ProductPage = () => {
   const { username, userId } = UseAuth();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [errMsg, setErrMsg] = useState("");
   const [qty, setQty] = useState(1);
   const [itemSize, setItemSize] = useState("");
   const [itemColor, setItemColor] = useState("");
@@ -70,7 +71,7 @@ const ProductPage = () => {
   } = useGetProductsQuery();
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <CircularProgress />;
   }
   if (isError) {
     content = <p>Error: {error?.data?.message}</p>;
@@ -88,6 +89,10 @@ const ProductPage = () => {
 
   const filterReviews = reviews?.filter(
     (review) => review.product === product.BIproductname
+  );
+  const checkDuplicate = reviews?.filter(
+    (review) =>
+      review.product === product.BIproductname && review.user === username
   );
   const [addNewReview] = useAddReviewMutation();
 
@@ -107,8 +112,9 @@ const ProductPage = () => {
       setReview("");
       handleClose();
     } catch (error) {
-      console.log(error);
-      window.alert("An Error has Occured.");
+      if (error?.status === 409) {
+        setErrMsg(error?.data?.message);
+      }
     }
   };
 
@@ -323,7 +329,9 @@ const ProductPage = () => {
                       className="cta ctaRedirect"
                       onClick={username && handleShow}
                     >
-                      Write a Review
+                      {checkDuplicate.length === 1
+                        ? "Edit Review"
+                        : "Write a Review"}
                     </button>
                   </Link>
                 </LightTooltip>
@@ -357,6 +365,7 @@ const ProductPage = () => {
           <Modal.Body>
             <div className="modalContainer">
               <form method="post" className="reviewForm">
+                {errMsg && <p className="err">{errMsg}</p>}
                 <p>RATING</p>
                 <StyledRating
                   name="rating"

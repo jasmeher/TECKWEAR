@@ -6,6 +6,7 @@ import Item from "./../../components/Item/Item";
 import { useGetProductsQuery } from "../../app/slice/productsApiSlice";
 import { useParams } from "react-router-dom";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { Skeleton, Stack } from "@mui/material";
 
 const Products = () => {
   const { gender } = useParams();
@@ -24,7 +25,11 @@ const Products = () => {
     error,
   } = useGetProductsQuery(gender);
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = (
+      <Stack>
+        <Skeleton variant="rectangular" width={"15rem"} height={"30rem"} />
+      </Stack>
+    );
   }
   if (isError) {
     content = <p>Error: {error?.data?.message}</p>;

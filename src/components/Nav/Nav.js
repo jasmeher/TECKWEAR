@@ -6,15 +6,22 @@ import Marquee from "react-fast-marquee";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
 import UseAuth from "../../hooks/UseAuth";
+import { loadStripe } from "@stripe/stripe-js";
 import { useSendLogOutMutation } from "../../app/slice/authApiSlice";
 import { useSelector } from "react-redux";
 import { selectAllCartProducts } from "../../app/slice/cartSlice";
 import { selectAllProducts } from "../../app/slice/productsApiSlice";
+import { useGetUserQuery } from "../../app/slice/usersApiSlice";
+
+const stripePromise = loadStripe(
+  "pk_test_51LP51LSFncM9QBps7YO3UAX9t4rivrycZ8aGcb5CBQTRQoOHu8tzE1lJgPn2ThT7QZ3BXPTYhbsG1UqCeoHD6DP400hD1Nim7M"
+);
 
 const Nav = () => {
-  const { username } = UseAuth();
+  const { username, userId } = UseAuth();
   const [navShow, setNavShow] = useState(false);
   const [cartShow, setCartShow] = useState(false);
+  const { data: userQuery } = useGetUserQuery(userId);
 
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
@@ -41,6 +48,26 @@ const Nav = () => {
     });
     return total.toFixed(2);
   };
+
+  async function makePayment() {
+    const stripe = await stripePromise;
+    const reqBody = {
+      user: userId,
+      email: userQuery.email,
+      product: cartProducts.map((product) => ({
+        id: product.id,
+        qty: product.qty,
+      })),
+    };
+
+    const response = await fetch("http://localhost:5000/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody),
+    });
+    const session = await response.json();
+    await stripe.redirectToCheckout({ sessionId: session.id });
+  }
 
   useEffect(() => {
     if (isSuccess) {
@@ -243,14 +270,14 @@ const Nav = () => {
                     <div className="subMenu">
                       <div className="inner">
                         <ul className="subMenuList">
-                          <Link to="/profile" className="text-reset">
+                          <li className="subMenuListItem">
+                            <p className="listTitle">{username}</p>
+                          </li>
+                          <Link to="/orders" className="text-reset">
                             <li className="subMenuListItem">
-                              <p className="listTitle">Profile</p>
+                              <p className="listTitle">Orders</p>
                             </li>
                           </Link>
-                          <li className="subMenuListItem">
-                            <p className="listTitle">Orders</p>
-                          </li>
                           <li
                             className="subMenuListItem"
                             onClick={() => sendLogOut()}
@@ -549,8 +576,7 @@ const Nav = () => {
                   className="cta"
                   disabled={!cartProducts?.length}
                   onClick={() => {
-                    navigate("/checkout");
-                    handleCartClose();
+                    makePayment();
                   }}
                 >
                   CONTINUE TO CHECKOUT
