@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials } from "../slice/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://teckwear-api.netlify.app",
+  baseUrl: "https://teckwear-api.onrender.com",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;

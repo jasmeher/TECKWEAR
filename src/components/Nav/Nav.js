@@ -60,7 +60,7 @@ const Nav = () => {
       })),
     };
 
-    const response = await fetch("https://teckwear-api.netlify.app/order", {
+    const response = await fetch("https://teckwear-api.onrender.com/order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqBody),
