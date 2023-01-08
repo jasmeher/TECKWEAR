@@ -42,7 +42,7 @@ const Home = () => {
       const editOrder = async () => {
         //eslint-disable-next-line
         const response = await fetch(
-          `http://localhost:5000/order/single/${sessionId}`,
+          `https://teckwear-api.netlify.app/order/single/${sessionId}`,
           {
             method: "PATCH",
           }

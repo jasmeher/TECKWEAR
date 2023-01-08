@@ -10,6 +10,11 @@ import { productsApiSlice } from "./app/slice/productsApiSlice";
 import { PersistGate } from "redux-persist/integration/react";
 import { reviewApiSlice } from "./app/slice/reviewApiSlice";
 import { ordersApiSlice } from "./app/slice/ordersApiSlice";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+
+if (process.env.NODE_ENV === "production") {
+  disableReactDevTools();
+}
 
 store.dispatch(productsApiSlice.endpoints.getProducts.initiate());
 store.dispatch(reviewApiSlice.endpoints.getReview.initiate());
