@@ -578,7 +578,7 @@ const Nav = () => {
                   className="cta"
                   disabled={!cartProducts?.length}
                   onClick={() => {
-                    makePayment();
+                    username ? makePayment() : navigate("/signin?siError=true");
                   }}
                 >
                   CONTINUE TO CHECKOUT
