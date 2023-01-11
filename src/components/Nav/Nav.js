@@ -499,12 +499,14 @@ const Nav = () => {
                       onClick={handleNavClose}
                     >
                       <li className="accordionListItem">
-                        <span className="listTitle">PROFILE</span>
+                        <span className="listTitle">{username}</span>
                       </li>
                     </Link>
-                    <li className="accordionListItem">
-                      <span className="listTitle">Orders</span>
-                    </li>
+                    <Link to="/orders" className="text-reset">
+                      <li className="accordionListItem">
+                        <span className="listTitle">Orders</span>
+                      </li>
+                    </Link>
                     <li
                       className="accordionListItem"
                       onClick={() => sendLogOut()}
@@ -579,6 +581,7 @@ const Nav = () => {
                   disabled={!cartProducts?.length}
                   onClick={() => {
                     username ? makePayment() : navigate("/signin?siError=true");
+                    handleCartClose();
                   }}
                 >
                   CONTINUE TO CHECKOUT
