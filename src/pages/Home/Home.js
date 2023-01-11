@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
@@ -174,20 +174,24 @@ const Home = () => {
               </p>
             </div>
             <div className="ctaContainer">
-              <button
-                className="cta ctaRedirect"
-                onMouseEnter={() => changeState(setMenHover, true)}
-                onMouseLeave={() => changeState(setMenHover, false)}
-              >
-                MEN
-              </button>
-              <button
-                className="cta ctaRedirect"
-                onMouseEnter={() => changeState(setWomenHover, true)}
-                onMouseLeave={() => changeState(setWomenHover, false)}
-              >
-                WOMEN
-              </button>
+              <Link to="/products/men" className="text-reset">
+                <button
+                  className="cta ctaRedirect"
+                  onMouseEnter={() => changeState(setMenHover, true)}
+                  onMouseLeave={() => changeState(setMenHover, false)}
+                >
+                  MEN
+                </button>
+              </Link>
+              <Link to="/products/women" className="text-reset">
+                <button
+                  className="cta ctaRedirect"
+                  onMouseEnter={() => changeState(setWomenHover, true)}
+                  onMouseLeave={() => changeState(setWomenHover, false)}
+                >
+                  WOMEN
+                </button>
+              </Link>
             </div>
           </div>
           <div className="right">
